@@ -91,7 +91,7 @@
 
   <!-- Background Audio Element -->
   <audio id="bgMusic" loop preload="auto">
-    <source src="headlights1.mp3" type="audio/mpeg">
+    <source src="headlights2.mp3" type="audio/mpeg">
     Your browser does not support audio.
   </audio>
 
@@ -119,23 +119,25 @@
     // Audio Autoplay Handler
     const audio = document.getElementById('bgMusic');
 
-    function startMusic() {
+    function forcePlayAudio() {
       if (audio && audio.paused) {
-        audio.play().catch(() => {});
+        audio.play().then(() => {
+          ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
+            document.removeEventListener(evt, forcePlayAudio, true);
+            window.removeEventListener(evt, forcePlayAudio, true);
+          });
+        }).catch(() => {});
       }
-      ['click', 'touchstart', 'scroll'].forEach(evt => 
-        document.removeEventListener(evt, startMusic)
-      );
     }
 
-    // Try immediate autoplay, fallback to first touch/click
-    if (audio) {
-      audio.play().catch(() => {
-        ['click', 'touchstart', 'scroll'].forEach(evt => 
-          document.addEventListener(evt, startMusic, { once: true })
-        );
-      });
-    }
+    // 1. Try immediate load
+    forcePlayAudio();
+
+    // 2. Trigger on first touch/tap anywhere
+    ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
+      document.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
+      window.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
+    });
   </script>
 </body>
 </html>
