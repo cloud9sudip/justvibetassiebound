@@ -132,42 +132,29 @@
       document.getElementById('secs').textContent = Math.floor((diff / 1000) % 60);
     }
 
- update();
+update();
     setInterval(update, 1000);
 
-    function toggleMusic() {
-      const audio = document.getElementById('bgMusic');
-      const btn = document.getElementById('musicBtn');
+    const audio = document.getElementById('bgMusic');
 
-      if (!audio) {
-        console.error("Audio element #bgMusic not found in the DOM.");
-        return;
+    function startMusic() {
+      if (audio && audio.paused) {
+        audio.play().catch(() => {});
       }
-
-      if (audio.paused) {
-        audio.play().then(() => {
-          if (btn) btn.textContent = '⏸ Pause Music';
-        }).catch((err) => {
-          console.error("Audio playback failed:", err);
-        });
-      } else {
-        audio.pause();
-        if (btn) btn.textContent = '🎵 Play Music';
-      }
+      // Remove listeners once playback has started
+      ['click', 'touchstart', 'scroll'].forEach(evt => 
+        document.removeEventListener(evt, startMusic)
+      );
     }
 
-    // Optional listener to start audio on the first interaction anywhere on page
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.addEventListener('click', () => {
-        const audio = document.getElementById('bgMusic');
-        const btn = document.getElementById('musicBtn');
-        if (audio && audio.paused) {
-          audio.play().then(() => {
-            if (btn) btn.textContent = '⏸ Pause Music';
-          }).catch(() => {});
-        }
-      }, { once: true });
+    // Attempt autoplay immediately on load (in case browser policy allows it)
+    audio.play().catch(() => {
+      // If blocked, start on the very first tap, swipe, or click anywhere
+      ['click', 'touchstart', 'scroll'].forEach(evt => 
+        document.addEventListener(evt, startMusic, { once: true })
+      );
     });
+  </script>
   </script>
   <!-- Background Audio Element -->
 <audio id="bgMusic" loop preload="auto">
@@ -175,7 +162,5 @@
   Your browser does not support audio.
 </audio>
 
-<!-- Floating Audio Toggle Button -->
-<button id="musicBtn" onclick="toggleMusic()">🎵 Play Music</button>
 </body>
 </html>
