@@ -132,29 +132,42 @@
       document.getElementById('secs').textContent = Math.floor((diff / 1000) % 60);
     }
 
-    update();
+ update();
     setInterval(update, 1000);
-    const audio = document.getElementById('bgMusic');
-const btn = document.getElementById('musicBtn');
 
-function toggleMusic() {
-  if (audio.paused) {
-    audio.play();
-    btn.textContent = '⏸ Pause Music';
-  } else {
-    audio.pause();
-    btn.textContent = '🎵 Play Music';
-  }
-}
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      const btn = document.getElementById('musicBtn');
 
-// Automatically attempts to start music on the very first touch/click anywhere on screen
-document.body.addEventListener('click', function() {
-  if (audio.paused) {
-    audio.play().then(() => {
-      btn.textContent = '⏸ Pause Music';
-    }).catch(() => {});
-  }
-}, { once: true });
+      if (!audio) {
+        console.error("Audio element #bgMusic not found in the DOM.");
+        return;
+      }
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          if (btn) btn.textContent = '⏸ Pause Music';
+        }).catch((err) => {
+          console.error("Audio playback failed:", err);
+        });
+      } else {
+        audio.pause();
+        if (btn) btn.textContent = '🎵 Play Music';
+      }
+    }
+
+    // Optional listener to start audio on the first interaction anywhere on page
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.addEventListener('click', () => {
+        const audio = document.getElementById('bgMusic');
+        const btn = document.getElementById('musicBtn');
+        if (audio && audio.paused) {
+          audio.play().then(() => {
+            if (btn) btn.textContent = '⏸ Pause Music';
+          }).catch(() => {});
+        }
+      }, { once: true });
+    });
   </script>
   <!-- Background Audio Element -->
 <audio id="bgMusic" loop preload="auto">
