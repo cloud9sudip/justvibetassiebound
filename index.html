@@ -12,7 +12,7 @@
       align-items: center;
       justify-content: center;
       background-color: #0b192c;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Montserrat", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       padding: 12px;
       overflow-x: hidden;
     }
@@ -59,62 +59,30 @@
       object-fit: cover;
     }
 
-    /* Seamless cover to mask the image's baked-in lower text */
-    .baked-text-mask {
-      position: absolute;
-      bottom: 22%;
-      left: 15%;
-      width: 70%;
-      height: 28%;
-      background: radial-gradient(ellipse at center, rgba(12, 34, 60, 0.92) 0%, rgba(12, 34, 60, 0.7) 45%, rgba(12, 34, 60, 0) 75%);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    /* Big Bold Top Header (matching the official ad typography) */
-    .top-heading {
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 95%;
-      text-align: center;
-      color: #ffffff;
-      font-size: 38px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      text-transform: none;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8), 0 6px 25px rgba(0, 0, 0, 0.6);
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    /* Bottom Countdown Timer */
+    /* Countdown Timer: Centered cleanly across the TOP */
     .timer-overlay {
       position: absolute;
-      bottom: 14px;
+      top: 12px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(10, 25, 47, 0.88);
+      background: rgba(10, 25, 47, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 12px;
-      padding: 8px 18px;
+      padding: 8px 16px;
       display: flex;
       gap: 14px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: #ffffff;
       text-align: center;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
       z-index: 10;
     }
 
     .unit {
       display: flex;
       flex-direction: column;
-      min-width: 40px;
+      min-width: 38px;
     }
 
     .num {
@@ -132,15 +100,11 @@
       margin-top: 3px;
     }
 
-    /* iPhone & Mobile Viewports */
+    /* Mobile / iPhone Viewports */
     @media (max-width: 580px) {
-      .top-heading {
-        top: 8px;
-        font-size: 24px;
-      }
       .timer-overlay {
-        bottom: 10px;
-        padding: 6px 12px;
+        top: 8px;
+        padding: 5px 12px;
         gap: 8px;
       }
       .unit {
@@ -158,6 +122,7 @@
 <body>
 
   <div class="wrapper">
+    <!-- Media Container with Motion Effect -->
     <div class="media-container">
       <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
         <source src="tassie.mp4" type="video/mp4">
@@ -165,13 +130,7 @@
       </video>
     </div>
 
-    <!-- Soft blend over the image's original baked-in text -->
-    <div class="baked-text-mask"></div>
-
-    <!-- Top Text Header (Scaled Up & Bold) -->
-    <div class="top-heading">Tassie starts here</div>
-
-    <!-- Countdown Timer -->
+    <!-- Countdown Timer at the TOP -->
     <div class="timer-overlay" id="timerBox">
       <div class="unit"><span class="num" id="days">0</span><span class="lbl">Days</span></div>
       <div class="unit"><span class="num" id="hours">0</span><span class="lbl">Hours</span></div>
@@ -180,6 +139,7 @@
     </div>
   </div>
 
+  <!-- Background Audio Element -->
   <audio id="bgMusic" loop preload="auto">
     <source src="headlight4.mp3" type="audio/mpeg">
     Your browser does not support audio.
@@ -206,6 +166,7 @@
     update();
     setInterval(update, 1000);
 
+    // Audio Autoplay Handler
     const audio = document.getElementById('bgMusic');
 
     function forcePlayAudio() {
