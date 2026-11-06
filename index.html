@@ -224,16 +224,19 @@
       document.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
       window.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
     });
+    // Rewind video early to skip the replay/watch again screen
     const video = document.getElementById('bgVideo');
     if (video) {
       video.addEventListener('timeupdate', () => {
-        // Rewind to 0 once it hits 18 seconds (before the replay icon appears)
         if (video.currentTime >= 18) {
           video.currentTime = 0;
           video.play();
         }
       });
     }
+  </script>
+</body>
+</html>
   </script>
 </body>
 </html>
