@@ -11,7 +11,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #0b192c;
+      background-color: #07111e;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       padding: 12px;
       overflow-x: hidden;
@@ -21,62 +21,90 @@
       position: relative;
       max-width: 820px;
       width: 100%;
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      background: #0b192c;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.75);
+      background: #000;
+      aspect-ratio: 16 / 9;
     }
 
-    /* Ship Ocean Swell Floating Animation */
-    @keyframes oceanSway {
-      0% {
-        transform: scale(1.03) translateY(0px) rotate(0deg);
-      }
-      35% {
-        transform: scale(1.03) translateY(-4px) rotate(0.35deg);
-      }
-      70% {
-        transform: scale(1.03) translateY(3px) rotate(-0.35deg);
-      }
-      100% {
-        transform: scale(1.03) translateY(0px) rotate(0deg);
-      }
-    }
-
+    /* Video Player (Crops black borders and UI bars seamlessly) */
     .media-container {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      display: block;
-      position: relative;
-      animation: oceanSway 7s ease-in-out infinite alternate;
-      transform-origin: center center;
+      height: 100%;
+      overflow: hidden;
     }
 
-    .media-container video,
-    .media-container img {
+    .media-container video {
       width: 100%;
-      height: auto;
-      display: block;
+      height: 100%;
       object-fit: cover;
+      object-position: center center;
+      display: block;
+      filter: brightness(0.92) contrast(1.05);
     }
 
-    /* Countdown Timer: Centered cleanly across the TOP */
+    /* Subtle cinematic vignette around edges */
+    .vignette-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 45%, rgba(7, 17, 30, 0.6) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Floating Countdown Pod at the Top */
     .timer-overlay {
       position: absolute;
-      top: 12px;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(10, 25, 47, 0.85);
+      background: rgba(7, 17, 30, 0.78);
       border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 12px;
-      padding: 8px 16px;
+      border-radius: 14px;
+      padding: 8px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      z-index: 10;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #93c5fd;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .units-grid {
       display: flex;
       gap: 14px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #ffffff;
       text-align: center;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-      z-index: 10;
     }
 
     .unit {
@@ -90,21 +118,27 @@
       font-weight: 700;
       color: #ffcc00;
       line-height: 1.1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
     .lbl {
       font-size: 8px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       color: #cbd5e1;
       margin-top: 3px;
     }
 
-    /* Mobile / iPhone Viewports */
+    /* Small Mobile Screens */
     @media (max-width: 580px) {
+      .wrapper {
+        aspect-ratio: 4 / 3;
+      }
       .timer-overlay {
-        top: 8px;
-        padding: 5px 12px;
+        top: 10px;
+        padding: 6px 12px;
+      }
+      .units-grid {
         gap: 8px;
       }
       .unit {
@@ -122,24 +156,28 @@
 <body>
 
   <div class="wrapper">
-    <!-- Media Container with Motion Effect -->
     <div class="media-container">
       <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
         <source src="tassie.mp4" type="video/mp4">
-        <img id="ferryImg" alt="Spirit of Tasmania" src="tassieship.PNG">
       </video>
     </div>
 
-    <!-- Countdown Timer at the TOP -->
+    <div class="vignette-overlay"></div>
+
+    <!-- Countdown Timer Overlay -->
     <div class="timer-overlay" id="timerBox">
-      <div class="unit"><span class="num" id="days">0</span><span class="lbl">Days</span></div>
-      <div class="unit"><span class="num" id="hours">0</span><span class="lbl">Hours</span></div>
-      <div class="unit"><span class="num" id="mins">0</span><span class="lbl">Mins</span></div>
-      <div class="unit"><span class="num" id="secs">0</span><span class="lbl">Secs</span></div>
+      <div class="status-badge">
+        <span class="pulse-dot"></span> Tassie Countdown
+      </div>
+      <div class="units-grid">
+        <div class="unit"><span class="num" id="days">0</span><span class="lbl">Days</span></div>
+        <div class="unit"><span class="num" id="hours">0</span><span class="lbl">Hours</span></div>
+        <div class="unit"><span class="num" id="mins">0</span><span class="lbl">Mins</span></div>
+        <div class="unit"><span class="num" id="secs">0</span><span class="lbl">Secs</span></div>
+      </div>
     </div>
   </div>
 
-  <!-- Background Audio Element -->
   <audio id="bgMusic" loop preload="auto">
     <source src="headlight4.mp3" type="audio/mpeg">
     Your browser does not support audio.
@@ -153,7 +191,7 @@
       const diff = targetDate - now;
 
       if (isNaN(diff) || diff <= 0) {
-        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:4px 10px;'>We're off! 🚢</span>";
+        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>We're off! 🚢</span>";
         return;
       }
 
@@ -166,7 +204,7 @@
     update();
     setInterval(update, 1000);
 
-    // Audio Autoplay Handler
+    // Audio Autoplay Setup
     const audio = document.getElementById('bgMusic');
 
     function forcePlayAudio() {
