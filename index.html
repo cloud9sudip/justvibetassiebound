@@ -224,6 +224,16 @@
       document.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
       window.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
     });
+    const video = document.getElementById('bgVideo');
+    if (video) {
+      video.addEventListener('timeupdate', () => {
+        // Rewind to 0 once it hits 18 seconds (before the replay icon appears)
+        if (video.currentTime >= 18) {
+          video.currentTime = 0;
+          video.play();
+        }
+      });
+    }
   </script>
 </body>
 </html>
