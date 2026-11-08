@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tassie Starts Here - Countdown</title>
+  <title>Happy Tihar - Countdown</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -127,7 +127,7 @@
       margin-top: 3px;
     }
 
-    /* Bottom "Tassie starts here" Banner */
+    /* Bottom Happy Tihar Banner with Diya */
     .bottom-heading {
       position: absolute;
       bottom: 16px;
@@ -139,9 +139,25 @@
       font-size: 34px;
       font-weight: 900;
       letter-spacing: -0.5px;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 0 15px rgba(255, 180, 0, 0.8), 0 3px 12px rgba(0, 0, 0, 0.85);
       z-index: 10;
       pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .diya-icon {
+      font-size: 32px;
+      display: inline-block;
+      animation: flicker 2s infinite ease-in-out alternate;
+    }
+
+    @keyframes flicker {
+      0% { filter: drop-shadow(0 0 4px #ffaa00); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 12px #ff4500); transform: scale(1.08); }
+      100% { filter: drop-shadow(0 0 6px #ffaa00); transform: scale(0.98); }
     }
 
     @media (max-width: 580px) {
@@ -168,6 +184,9 @@
         bottom: 10px;
         font-size: 24px;
       }
+      .diya-icon {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
@@ -186,7 +205,7 @@
     <!-- Countdown Timer at the TOP -->
     <div class="timer-overlay" id="timerBox">
       <div class="status-badge">
-        <span class="pulse-dot"></span> Tassie Countdown
+        <span class="pulse-dot"></span> Countdown
       </div>
       <div class="units-grid">
         <div class="unit"><span class="num" id="days">0</span><span class="lbl">Days</span></div>
@@ -196,8 +215,10 @@
       </div>
     </div>
 
-    <!-- Bold Heading at the BOTTOM -->
-    <div class="bottom-heading">Tassie starts here</div>
+    <!-- Happy Tihar Banner with Diya -->
+    <div class="bottom-heading">
+      <span class="diya-icon">🪔</span> Happy Tihar <span class="diya-icon">🪔</span>
+    </div>
   </div>
 
   <!-- Background Audio Element -->
@@ -214,7 +235,7 @@
       const diff = targetDate - now;
 
       if (isNaN(diff) || diff <= 0) {
-        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>We're off! 🚢</span>";
+        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Happy Tihar! 🪔</span>";
         return;
       }
 
