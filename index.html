@@ -22,6 +22,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px;
+      overflow-x: hidden;
     }
     .wrapper {
       position: relative;
@@ -37,7 +38,7 @@
       justify-content: space-between;
       align-items: center;
     }
-    /* Background video & image fallback */
+    /* Background video & image layer */
     .media-layer {
       position: absolute;
       inset: 0;
@@ -124,7 +125,7 @@
       margin-top: 3px;
     }
 
-    /* BOTTOM: Text + Route Bar */
+    /* BOTTOM: Heading + Route Bar */
     .bottom-cluster {
       position: relative;
       z-index: 10;
@@ -135,6 +136,7 @@
       flex-direction: column;
       align-items: center;
       gap: 8px;
+      pointer-events: none;
     }
     .bottom-heading {
       text-align: center;
@@ -184,134 +186,4 @@
       position: relative;
       height: 4px;
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      margin: 6px 0 2px 0;
-    }
-    .ship-icon {
-      position: absolute;
-      left: 0;
-      top: -8px;
-      font-size: 13px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
-    }
-
-    @media (max-width: 580px) {
-      .wrapper {
-        min-height: 440px;
-      }
-      .timer-overlay {
-        margin-top: 10px;
-        padding: 6px 12px;
-      }
-      .units-grid { gap: 8px; }
-      .unit { min-width: 28px; }
-      .num { font-size: 16px; }
-      .lbl { font-size: 7px; }
-      .bottom-heading { font-size: 20px; }
-      .route-container { padding: 6px 10px; }
-      .port-name { font-size: 9px; }
-      .port-time { font-size: 7px; }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="wrapper">
-    <!-- Video / Media Layer -->
-    <div class="media-layer">
-      <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
-        <source src="tassie1.mp4" type="video/mp4">
-        <img src="tassieship.PNG" alt="Spirit of Tasmania">
-      </video>
-    </div>
-
-    <div class="vignette"></div>
-
-    <!-- Countdown Timer at the TOP -->
-    <div class="timer-overlay" id="timerBox">
-      <div class="status-badge">
-        <span class="pulse-dot"></span> Tassie Countdown
-      </div>
-      <div class="units-grid">
-        <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
-        <div class="unit"><span class="num" id="hours">--</span><span class="lbl">Hours</span></div>
-        <div class="unit"><span class="num" id="mins">--</span><span class="lbl">Mins</span></div>
-        <div class="unit"><span class="num" id="secs">--</span><span class="lbl">Secs</span></div>
-      </div>
-    </div>
-
-    <!-- Bottom Cluster: Heading Above Route Indicator -->
-    <div class="bottom-cluster">
-      <div class="bottom-heading">Tassie starts here</div>
-
-      <div class="route-container">
-        <div class="route-labels">
-          <div class="route-point">
-            <span class="port-name">📍 Geelong</span>
-            <span class="port-time">Dep 6:45 PM</span>
-          </div>
-          <div class="route-point right">
-            <span class="port-name">Devonport 🏁</span>
-            <span class="port-time">Arr 6:00 PM Next Day</span>
-          </div>
-        </div>
-        <div class="route-track">
-          <span class="ship-icon">🚢</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Audio Element -->
-  <audio id="bgMusic" loop preload="auto">
-    <source src="titanic.mp3" type="audio/mpeg">
-    <source src="Titanic.mp3" type="audio/mpeg">
-  </audio>
-
-  <script>
-    // Target: November 19, 2026, 18:45:00
-    var targetDeparture = new Date(2026, 10, 19, 18, 45, 0).getTime();
-
-    function update() {
-      var now = new Date().getTime();
-      var diff = targetDeparture - now;
-
-      if (diff <= 0) {
-        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Bon Voyage! 🚢</span>";
-        return;
-      }
-
-      var d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      var h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      var m = Math.floor((diff / (1000 * 60)) % 60);
-      var s = Math.floor((diff / 1000) % 60);
-
-      document.getElementById('days').textContent = d;
-      document.getElementById('hours').textContent = h;
-      document.getElementById('mins').textContent = m;
-      document.getElementById('secs').textContent = s;
-    }
-
-    update();
-    setInterval(update, 1000);
-
-    // Audio Playback
-    var audio = document.getElementById('bgMusic');
-
-    function playAudio() {
-      if (audio && audio.paused) {
-        audio.play().then(function() {
-          ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(function(evt) {
-            document.removeEventListener(evt, playAudio, true);
-          });
-        }).catch(function() {});
-      }
-    }
-
-    playAudio();
-    ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(function(evt) {
-      document.addEventListener(evt, playAudio, { capture: true, passive: true });
-    });
-  </script>
-</body>
-</html>
+      border
