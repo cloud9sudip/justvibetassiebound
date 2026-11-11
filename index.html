@@ -38,17 +38,13 @@
       overflow: hidden;
     }
 
-    /* Zooms slightly and aligns to bottom so black status bars are cut off */
-    .media-container video,
-    .media-container img {
+    .media-container video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 85%;
+      object-position: center center;
       display: block;
       filter: brightness(0.92) contrast(1.05);
-      transform: scale(1.08);
-      transform-origin: center bottom;
     }
 
     .vignette-overlay {
@@ -62,7 +58,7 @@
     /* Floating Countdown Pod at the Top */
     .timer-overlay {
       position: absolute;
-      top: 12px;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(7, 17, 30, 0.85);
@@ -132,7 +128,7 @@
       margin-top: 3px;
     }
 
-    /* Bottom Cluster: Heading Above Route Box */
+    /* Bottom Cluster: Route Box + Heading */
     .bottom-cluster {
       position: absolute;
       bottom: 12px;
@@ -146,15 +142,6 @@
       gap: 6px;
       z-index: 10;
       pointer-events: none;
-    }
-
-    .bottom-heading {
-      text-align: center;
-      color: #ffffff;
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
     }
 
     .route-container {
@@ -215,6 +202,15 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     }
 
+    .bottom-heading {
+      text-align: center;
+      color: #ffffff;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
+    }
+
     @media (max-width: 580px) {
       .wrapper {
         aspect-ratio: 4 / 3;
@@ -232,10 +228,10 @@
         width: 94%;
         gap: 4px;
       }
-      .bottom-heading { font-size: 19px; }
       .route-container { padding: 5px 10px; }
       .port-name { font-size: 9px; }
       .port-time { font-size: 7px; }
+      .bottom-heading { font-size: 19px; }
     }
   </style>
 </head>
@@ -246,6 +242,7 @@
     <div class="media-container">
       <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
         <source src="tassie1.mp4" type="video/mp4">
+        <source src="tassie.mp4" type="video/mp4">
         <img src="tassieship.PNG" alt="Spirit of Tasmania">
       </video>
     </div>
@@ -265,10 +262,8 @@
       </div>
     </div>
 
-    <!-- Bottom Cluster: Heading Above Route Box -->
+    <!-- Bottom Cluster: Route Box + Heading -->
     <div class="bottom-cluster">
-      <div class="bottom-heading">Tassie starts here</div>
-
       <div class="route-container">
         <div class="route-labels">
           <div class="route-point">
@@ -284,6 +279,8 @@
           <span class="ship-icon">🚢</span>
         </div>
       </div>
+
+      <div class="bottom-heading">Tassie starts here</div>
     </div>
   </div>
 
@@ -320,7 +317,7 @@
     update();
     setInterval(update, 1000);
 
-    // Audio Autoplay & Tap Unlock Handler
+    // Audio Autoplay & Screen Tap Handler
     const audio = document.getElementById('bgMusic');
 
     function playAudio() {
