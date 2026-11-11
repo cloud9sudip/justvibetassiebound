@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tassie starts here - Countdown</title>
+  <title>Tassie Adventure Starts Here - Countdown</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -127,7 +127,7 @@
       margin-top: 3px;
     }
 
-    /* Bottom Cluster */
+    /* Bottom Cluster: Heading Above Route Box */
     .bottom-cluster {
       position: absolute;
       bottom: 12px;
@@ -141,6 +141,15 @@
       gap: 6px;
       z-index: 10;
       pointer-events: none;
+    }
+
+    .bottom-heading {
+      text-align: center;
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
     }
 
     .route-container {
@@ -201,15 +210,6 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     }
 
-    .bottom-heading {
-      text-align: center;
-      color: #ffffff;
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
-    }
-
     @media (max-width: 580px) {
       .wrapper {
         aspect-ratio: 4 / 3;
@@ -227,10 +227,10 @@
         width: 94%;
         gap: 4px;
       }
+      .bottom-heading { font-size: 18px; }
       .route-container { padding: 5px 10px; }
       .port-name { font-size: 9px; }
       .port-time { font-size: 7px; }
-      .bottom-heading { font-size: 19px; }
     }
   </style>
 </head>
@@ -259,8 +259,10 @@
       </div>
     </div>
 
-    <!-- Bottom Cluster -->
+    <!-- Bottom Cluster: Heading Above Route Box -->
     <div class="bottom-cluster">
+      <div class="bottom-heading">Tassie Adventure Starts Here</div>
+
       <div class="route-container">
         <div class="route-labels">
           <div class="route-point">
@@ -276,8 +278,6 @@
           <span class="ship-icon">🚢</span>
         </div>
       </div>
-
-      <div class="bottom-heading">Tassie Starts Here</div>
     </div>
   </div>
 
