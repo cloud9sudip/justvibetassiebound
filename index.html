@@ -207,4 +207,131 @@
       font-size: 26px;
       font-weight: 900;
       letter-spacing: -0.5px;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    @media (max-width: 580px) {
+      .wrapper {
+        aspect-ratio: 4 / 3;
+      }
+      .timer-overlay {
+        top: 8px;
+        padding: 5px 12px;
+      }
+      .units-grid { gap: 8px; }
+      .unit { min-width: 28px; }
+      .num { font-size: 16px; }
+      .lbl { font-size: 7px; }
+      .bottom-cluster {
+        bottom: 8px;
+        width: 94%;
+        gap: 4px;
+      }
+      .route-container { padding: 5px 10px; }
+      .port-name { font-size: 9px; }
+      .port-time { font-size: 7px; }
+      .bottom-heading { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <!-- Background Video -->
+    <div class="media-container">
+      <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
+        <source src="tassie1.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="vignette-overlay"></div>
+
+    <!-- Countdown Timer at Top -->
+    <div class="timer-overlay" id="timerBox">
+      <div class="status-badge">
+        <span class="pulse-dot"></span> Sydney Departure
+      </div>
+      <div class="units-grid">
+        <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
+        <div class="unit"><span class="num" id="hours">--</span><span class="lbl">Hours</span></div>
+        <div class="unit"><span class="num" id="mins">--</span><span class="lbl">Mins</span></div>
+        <div class="unit"><span class="num" id="secs">--</span><span class="lbl">Secs</span></div>
+      </div>
+    </div>
+
+    <!-- Bottom Cluster -->
+    <div class="bottom-cluster">
+      <div class="route-container">
+        <div class="route-labels">
+          <div class="route-point">
+            <span class="port-name">📍 Geelong</span>
+            <span class="port-time">20th Nov • 6:45 PM</span>
+          </div>
+          <div class="route-point right">
+            <span class="port-name">Devonport 🏁</span>
+            <span class="port-time">21st Nov • 6:00 AM</span>
+          </div>
+        </div>
+        <div class="route-track">
+          <span class="ship-icon">🚢</span>
+        </div>
+      </div>
+
+      <div class="bottom-heading">Tassie Starts Here</div>
+    </div>
+  </div>
+
+  <!-- Background Audio Element -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="Titanic.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Target: November 19, 2026, 23:59:00 (Month index 10 = November in JS)
+    const targetDeparture = new Date(2026, 10, 19, 23, 59, 0).getTime();
+
+    function update() {
+      const now = Date.now();
+      const diff = targetDeparture - now;
+
+      if (diff <= 0) {
+        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Sydney Departure! 🚗💨</span>";
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('days').textContent = d;
+      document.getElementById('hours').textContent = h;
+      document.getElementById('mins').textContent = m;
+      document.getElementById('secs').textContent = s;
+    }
+
+    update();
+    setInterval(update, 1000);
+
+    // Audio Autoplay & Screen Tap Handler
+    const audio = document.getElementById('bgMusic');
+
+    function playAudio() {
+      if (audio && audio.paused) {
+        audio.play().then(() => {
+          ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
+            document.removeEventListener(evt, playAudio, true);
+            window.removeEventListener(evt, playAudio, true);
+          });
+        }).catch(() => {});
+      }
+    }
+
+    playAudio();
+    ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
+      document.addEventListener(evt, playAudio, { capture: true, passive: true });
+      window.addEventListener(evt, playAudio, { capture: true, passive: true });
+    });
+  </script>
+</body>
+</html>
