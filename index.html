@@ -130,15 +130,15 @@
     /* Route Progress Indicator */
     .route-container {
       position: absolute;
-      bottom: 60px;
+      bottom: 58px;
       left: 50%;
       transform: translateX(-50%);
-      width: 82%;
-      max-width: 440px;
-      background: rgba(7, 17, 30, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 20px;
-      padding: 6px 14px;
+      width: 86%;
+      max-width: 480px;
+      background: rgba(7, 17, 30, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 8px 14px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       z-index: 10;
@@ -148,19 +148,40 @@
     .route-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 9px;
-      font-weight: 700;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .route-point {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .route-point.right {
+      text-align: right;
+    }
+
+    .port-name {
+      font-size: 10px;
+      font-weight: 800;
       letter-spacing: 0.8px;
       text-transform: uppercase;
-      color: #cbd5e1;
-      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .port-time {
+      font-size: 8px;
+      font-weight: 600;
+      color: #38bdf8;
+      margin-top: 1px;
     }
 
     .route-track {
       position: relative;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.25);
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
       border-radius: 2px;
+      overflow: visible;
     }
 
     .route-progress {
@@ -168,20 +189,21 @@
       left: 0;
       top: 0;
       height: 100%;
-      width: 65%;
+      width: 50%;
       background: linear-gradient(90deg, #38bdf8, #ffcc00);
       border-radius: 2px;
+      transition: width 0.4s ease;
     }
 
     .ship-icon {
       position: absolute;
       right: -8px;
-      top: -9px;
+      top: -8px;
       font-size: 13px;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     }
 
-    /* Bottom "Tassie starts here" Banner */
+    /* Bottom Text */
     .bottom-heading {
       position: absolute;
       bottom: 12px;
@@ -190,7 +212,7 @@
       width: 90%;
       text-align: center;
       color: #ffffff;
-      font-size: 30px;
+      font-size: 28px;
       font-weight: 900;
       letter-spacing: -0.5px;
       text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
@@ -203,7 +225,7 @@
         aspect-ratio: 4 / 3;
       }
       .timer-overlay {
-        top: 10px;
+        top: 8px;
         padding: 6px 12px;
       }
       .units-grid {
@@ -219,16 +241,19 @@
         font-size: 7px;
       }
       .route-container {
-        bottom: 46px;
-        width: 88%;
-        padding: 5px 12px;
+        bottom: 44px;
+        width: 92%;
+        padding: 6px 10px;
       }
-      .route-labels {
-        font-size: 8px;
+      .port-name {
+        font-size: 9px;
+      }
+      .port-time {
+        font-size: 7px;
       }
       .bottom-heading {
         bottom: 8px;
-        font-size: 20px;
+        font-size: 19px;
       }
     }
   </style>
@@ -258,12 +283,17 @@
       </div>
     </div>
 
-    <!-- Route Progress Indicator -->
+    <!-- Route Container: Geelong to Devonport -->
     <div class="route-container">
       <div class="route-labels">
-        <span>📍 Geelong</span>
-        <span>Bass Strait</span>
-        <span>Devonport 🚢</span>
+        <div class="route-point">
+          <span class="port-name">📍 Geelong</span>
+          <span class="port-time">Dep 6:45 PM</span>
+        </div>
+        <div class="route-point right">
+          <span class="port-name">Devonport 🏁</span>
+          <span class="port-time">Arr 6:00 PM Next Day</span>
+        </div>
       </div>
       <div class="route-track">
         <div class="route-progress" id="routeBar">
@@ -283,40 +313,31 @@
   </audio>
 
   <script>
-    const targetDate = new Date("2026-11-19T23:59:59").getTime();
-    // Assuming start of the journey countdown window
-    const startDate = new Date("2026-11-01T00:00:00").getTime();
-    const totalDuration = targetDate - startDate;
+    // Explicit departure timestamp: Nov 19, 2026, 6:45 PM (AEDT UTC+11)
+    const departureTime = new Date("2026-11-19T18:45:00+11:00").getTime();
+    // Tracking reference start point
+    const countdownStart = new Date("2026-11-01T00:00:00+11:00").getTime();
+    const totalSpan = departureTime - countdownStart;
 
-    function update() {
-      const now = new Date().getTime();
-      const diff = targetDate - now;
+    function updateTimer() {
+      const now = Date.now();
+      const diff = departureTime - now;
 
-      if (isNaN(diff) || diff <= 0) {
-        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>We're off! 🚢</span>";
+      if (diff <= 0) {
+        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Bon Voyage! 🚢</span>";
         document.getElementById('routeBar').style.width = '100%';
         return;
       }
 
-      document.getElementById('days').textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
-      document.getElementById('hours').textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      document.getElementById('mins').textContent = Math.floor((diff / (1000 * 60)) % 60);
-      document.getElementById('secs').textContent = Math.floor((diff / 1000) % 60);
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
 
-      // Advance ship along the route track
-      const elapsed = now - startDate;
-      const progressPercent = Math.min(Math.max((elapsed / totalDuration) * 100, 10), 95);
-      document.getElementById('routeBar').style.width = progressPercent + '%';
-    }
+      document.getElementById('days').textContent = d;
+      document.getElementById('hours').textContent = h;
+      document.getElementById('mins').textContent = m;
+      document.getElementById('secs').textContent = s;
 
-    update();
-    setInterval(update, 1000);
-
-    // Audio Autoplay & Unlock Handler
-    const audio = document.getElementById('bgMusic');
-
-    function forcePlayAudio() {
-      if (audio && audio.paused) {
-        audio.play().then(() => {
-          ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
-            document.removeEventListener(evt, forcePlayAudio, true
+      // Calculate progress percentage along route track
+      const progress = Math.min(Math.max(((now - countdownStart) / totalSpan) * 100, 5), 95
