@@ -60,7 +60,7 @@
       top: 14px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(7, 17, 30, 0.82);
+      background: rgba(7, 17, 30, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 14px;
       padding: 8px 18px;
@@ -127,217 +127,37 @@
       margin-top: 3px;
     }
 
-    /* Route Progress Indicator */
-    .route-container {
-      position: absolute;
-      bottom: 58px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 86%;
-      max-width: 480px;
-      background: rgba(7, 17, 30, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 14px;
-      padding: 8px 14px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 10;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-
-    .route-labels {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .route-point {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .route-point.right {
-      text-align: right;
-    }
-
-    .port-name {
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: #ffffff;
-    }
-
-    .port-time {
-      font-size: 8px;
-      font-weight: 600;
-      color: #38bdf8;
-      margin-top: 1px;
-    }
-
-    .route-track {
-      position: relative;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      overflow: visible;
-    }
-
-    .route-progress {
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 50%;
-      background: linear-gradient(90deg, #38bdf8, #ffcc00);
-      border-radius: 2px;
-      transition: width 0.4s ease;
-    }
-
-    .ship-icon {
-      position: absolute;
-      right: -8px;
-      top: -8px;
-      font-size: 13px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
-    }
-
-    /* Bottom Text */
-    .bottom-heading {
+    /* Bottom Container (Stacks "Tassie Starts Here" on top of the Route Bar) */
+    .bottom-cluster {
       position: absolute;
       bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .bottom-heading {
       text-align: center;
       color: #ffffff;
       font-size: 28px;
       font-weight: 900;
       letter-spacing: -0.5px;
       text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
-      z-index: 10;
-      pointer-events: none;
     }
 
-    @media (max-width: 580px) {
-      .wrapper {
-        aspect-ratio: 4 / 3;
-      }
-      .timer-overlay {
-        top: 8px;
-        padding: 6px 12px;
-      }
-      .units-grid {
-        gap: 8px;
-      }
-      .unit {
-        min-width: 28px;
-      }
-      .num {
-        font-size: 16px;
-      }
-      .lbl {
-        font-size: 7px;
-      }
-      .route-container {
-        bottom: 44px;
-        width: 92%;
-        padding: 6px 10px;
-      }
-      .port-name {
-        font-size: 9px;
-      }
-      .port-time {
-        font-size: 7px;
-      }
-      .bottom-heading {
-        bottom: 8px;
-        font-size: 19px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="wrapper">
-    <!-- Background Video -->
-    <div class="media-container">
-      <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
-        <source src="tassie1.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="vignette-overlay"></div>
-
-    <!-- Countdown Timer at the TOP -->
-    <div class="timer-overlay" id="timerBox">
-      <div class="status-badge">
-        <span class="pulse-dot"></span> Tassie Countdown
-      </div>
-      <div class="units-grid">
-        <div class="unit"><span class="num" id="days">0</span><span class="lbl">Days</span></div>
-        <div class="unit"><span class="num" id="hours">0</span><span class="lbl">Hours</span></div>
-        <div class="unit"><span class="num" id="mins">0</span><span class="lbl">Mins</span></div>
-        <div class="unit"><span class="num" id="secs">0</span><span class="lbl">Secs</span></div>
-      </div>
-    </div>
-
-    <!-- Route Container: Geelong to Devonport -->
-    <div class="route-container">
-      <div class="route-labels">
-        <div class="route-point">
-          <span class="port-name">📍 Geelong</span>
-          <span class="port-time">Dep 6:45 PM</span>
-        </div>
-        <div class="route-point right">
-          <span class="port-name">Devonport 🏁</span>
-          <span class="port-time">Arr 6:00 PM Next Day</span>
-        </div>
-      </div>
-      <div class="route-track">
-        <div class="route-progress" id="routeBar">
-          <span class="ship-icon">🚢</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom Text Header -->
-    <div class="bottom-heading">Tassie starts here</div>
-  </div>
-
-  <!-- Background Audio Element -->
-  <audio id="bgMusic" loop preload="auto">
-    <source src="titanic.mp3" type="audio/mpeg">
-    Your browser does not support audio.
-  </audio>
-
-  <script>
-    // Explicit departure timestamp: Nov 19, 2026, 6:45 PM (AEDT UTC+11)
-    const departureTime = new Date("2026-11-19T18:45:00+11:00").getTime();
-    // Tracking reference start point
-    const countdownStart = new Date("2026-11-01T00:00:00+11:00").getTime();
-    const totalSpan = departureTime - countdownStart;
-
-    function updateTimer() {
-      const now = Date.now();
-      const diff = departureTime - now;
-
-      if (diff <= 0) {
-        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Bon Voyage! 🚢</span>";
-        document.getElementById('routeBar').style.width = '100%';
-        return;
-      }
-
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-
-      document.getElementById('days').textContent = d;
-      document.getElementById('hours').textContent = h;
-      document.getElementById('mins').textContent = m;
-      document.getElementById('secs').textContent = s;
-
-      // Calculate progress percentage along route track
-      const progress = Math.min(Math.max(((now - countdownStart) / totalSpan) * 100, 5), 95
+    /* Route Progress Container */
+    .route-container {
+      width: 100%;
+      background: rgba(7, 17, 30, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 12px;
+      padding: 8px 14px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(
