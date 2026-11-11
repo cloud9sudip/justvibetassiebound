@@ -15,6 +15,8 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Montserrat", sans-serif;
       padding: 12px;
       overflow-x: hidden;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .wrapper {
@@ -127,6 +129,62 @@
       margin-top: 3px;
     }
 
+    /* Interactive Audio Visualizer Pill */
+    .sound-pill {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(7, 17, 30, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 15;
+      transition: all 0.2s ease;
+    }
+
+    .sound-pill:hover {
+      background: rgba(15, 23, 42, 0.95);
+      transform: scale(1.05);
+    }
+
+    .sound-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .bar {
+      width: 2px;
+      background-color: #ffcc00;
+      border-radius: 1px;
+      height: 4px;
+      transition: height 0.2s ease;
+    }
+
+    .playing .bar1 { animation: eq 0.8s infinite ease-in-out alternate; }
+    .playing .bar2 { animation: eq 0.6s infinite ease-in-out alternate 0.2s; }
+    .playing .bar3 { animation: eq 0.7s infinite ease-in-out alternate 0.4s; }
+
+    @keyframes eq {
+      0% { height: 3px; }
+      100% { height: 12px; }
+    }
+
+    #soundLabel {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #cbd5e1;
+    }
+
     /* Bottom "Tassie starts here" Banner */
     .bottom-heading {
       position: absolute;
@@ -142,6 +200,27 @@
       text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
       z-index: 10;
       pointer-events: none;
+    }
+
+    /* Ocean Ripple Tap Effect */
+    .ripple {
+      position: fixed;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple-anim 0.65s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes ripple-anim {
+      to {
+        transform: translate(-50%, -50%) scale(5.5);
+        opacity: 0;
+      }
     }
 
     @media (max-width: 580px) {
@@ -167,6 +246,14 @@
       .bottom-heading {
         bottom: 10px;
         font-size: 24px;
+      }
+      .sound-pill {
+        top: 10px;
+        right: 10px;
+        padding: 4px 8px;
+      }
+      #soundLabel {
+        font-size: 8px;
       }
     }
   </style>
@@ -196,13 +283,23 @@
       </div>
     </div>
 
+    <!-- Interactive Glass Sound Equalizer Pill -->
+    <div id="soundToggle" class="sound-pill">
+      <div class="sound-bars">
+        <span class="bar bar1"></span>
+        <span class="bar bar2"></span>
+        <span class="bar bar3"></span>
+      </div>
+      <span id="soundLabel">Sound Off</span>
+    </div>
+
     <!-- Bottom Text Header -->
     <div class="bottom-heading">Tassie starts here</div>
   </div>
 
   <!-- Background Audio Element -->
   <audio id="bgMusic" loop preload="auto">
-    <source src="Titanic.mp3" type="audio/mpeg">
+    <source src="titanic.mp3" type="audio/mpeg">
     Your browser does not support audio.
   </audio>
 
@@ -227,25 +324,61 @@
     update();
     setInterval(update, 1000);
 
-    // Audio Autoplay Handler
+    // Audio & Equalizer Logic
     const audio = document.getElementById('bgMusic');
+    const soundToggle = document.getElementById('soundToggle');
+    const soundLabel = document.getElementById('soundLabel');
 
-    function forcePlayAudio() {
+    function syncSoundUI() {
+      if (!audio.paused) {
+        soundToggle.classList.add('playing');
+        soundLabel.textContent = 'Music On';
+      } else {
+        soundToggle.classList.remove('playing');
+        soundLabel.textContent = 'Muted';
+      }
+    }
+
+    function toggleAudio(e) {
+      if (e) e.stopPropagation();
+      if (audio.paused) {
+        audio.play().then(syncSoundUI).catch(() => {});
+      } else {
+        audio.pause();
+        syncSoundUI();
+      }
+    }
+
+    soundToggle.addEventListener('click', toggleAudio);
+
+    // Autoplay Unlock on First User Touch/Click
+    function unlockAudio() {
       if (audio && audio.paused) {
         audio.play().then(() => {
+          syncSoundUI();
           ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
-            document.removeEventListener(evt, forcePlayAudio, true);
-            window.removeEventListener(evt, forcePlayAudio, true);
+            document.removeEventListener(evt, unlockAudio, true);
           });
         }).catch(() => {});
       }
     }
 
-    forcePlayAudio();
-
+    unlockAudio();
     ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
-      document.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
-      window.addEventListener(evt, forcePlayAudio, { capture: true, passive: true });
+      document.addEventListener(evt, unlockAudio, { capture: true, passive: true });
+    });
+
+    // Ocean Ripple Animation on Screen Tap / Click
+    window.addEventListener('pointerdown', (e) => {
+      // Don't trigger ripple if clicking the mute toggle
+      if (e.target.closest('#soundToggle')) return;
+
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      ripple.style.left = `${e.clientX}px`;
+      ripple.style.top = `${e.clientY}px`;
+      document.body.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 650);
     });
   </script>
 </body>
