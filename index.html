@@ -7,76 +7,65 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    html, body {
-      width: 100%;
-      height: 100%;
-      background-color: #07111e;
-      color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
     body {
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      background-color: #07111e;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Montserrat", sans-serif;
       padding: 12px;
+      overflow-x: hidden;
     }
 
-    /* Container: uses CSS Grid to pin all layers on top of each other */
     .wrapper {
       position: relative;
-      width: 100%;
       max-width: 820px;
-      height: 480px;
+      width: 100%;
       border-radius: 18px;
       overflow: hidden;
-      background: #0b192c;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.75);
+      background: #000;
+      aspect-ratio: 16 / 9;
     }
 
-    /* Background Layer */
-    .media-layer {
-      grid-area: 1 / 1;
+    .media-container {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      position: relative;
-      z-index: 1;
+      overflow: hidden;
     }
 
-    .media-layer video,
-    .media-layer img {
+    /* Zooms slightly and aligns to bottom so black status bars are cut off */
+    .media-container video,
+    .media-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center 85%;
       display: block;
-      filter: brightness(0.9);
+      filter: brightness(0.92) contrast(1.05);
+      transform: scale(1.08);
+      transform-origin: center bottom;
     }
 
-    .vignette {
+    .vignette-overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, transparent 40%, rgba(7, 17, 30, 0.7) 100%);
+      background: radial-gradient(circle at center, transparent 40%, rgba(7, 17, 30, 0.65) 100%);
       pointer-events: none;
+      z-index: 2;
     }
 
-    /* Content Overlay Layer */
-    .content-layer {
-      grid-area: 1 / 1;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 12px;
-      pointer-events: none;
-    }
-
-    /* TOP: Countdown Box */
+    /* Floating Countdown Pod at the Top */
     .timer-overlay {
-      background: rgba(7, 17, 30, 0.88);
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(7, 17, 30, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 14px;
       padding: 8px 18px;
@@ -87,7 +76,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-      pointer-events: auto;
+      z-index: 10;
     }
 
     .status-badge {
@@ -132,6 +121,7 @@
       font-weight: 700;
       color: #ffcc00;
       line-height: 1.1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
     .lbl {
@@ -142,14 +132,20 @@
       margin-top: 3px;
     }
 
-    /* BOTTOM: Heading + Route Bar */
+    /* Bottom Cluster: Heading Above Route Box */
     .bottom-cluster {
-      width: 100%;
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
       max-width: 500px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      z-index: 10;
+      pointer-events: none;
     }
 
     .bottom-heading {
@@ -158,12 +154,12 @@
       font-size: 26px;
       font-weight: 900;
       letter-spacing: -0.5px;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85);
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
     }
 
     .route-container {
       width: 100%;
-      background: rgba(7, 17, 30, 0.9);
+      background: rgba(7, 17, 30, 0.88);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 12px;
       padding: 8px 14px;
@@ -176,7 +172,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .route-point {
@@ -208,7 +204,7 @@
       height: 4px;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 2px;
-      margin: 6px 0 2px 0;
+      margin: 4px 0 2px 0;
     }
 
     .ship-icon {
@@ -221,20 +217,23 @@
 
     @media (max-width: 580px) {
       .wrapper {
-        height: 420px;
-      }
-      .content-layer {
-        padding: 10px 8px;
+        aspect-ratio: 4 / 3;
       }
       .timer-overlay {
-        padding: 6px 12px;
+        top: 8px;
+        padding: 5px 12px;
       }
       .units-grid { gap: 8px; }
       .unit { min-width: 28px; }
       .num { font-size: 16px; }
       .lbl { font-size: 7px; }
-      .bottom-heading { font-size: 20px; }
-      .route-container { padding: 6px 10px; }
+      .bottom-cluster {
+        bottom: 8px;
+        width: 94%;
+        gap: 4px;
+      }
+      .bottom-heading { font-size: 19px; }
+      .route-container { padding: 5px 10px; }
       .port-name { font-size: 9px; }
       .port-time { font-size: 7px; }
     }
@@ -243,76 +242,74 @@
 <body>
 
   <div class="wrapper">
-    <!-- Layer 1: Background Media -->
-    <div class="media-layer">
+    <!-- Background Video -->
+    <div class="media-container">
       <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
         <source src="tassie1.mp4" type="video/mp4">
         <img src="tassieship.PNG" alt="Spirit of Tasmania">
       </video>
-      <div class="vignette"></div>
     </div>
 
-    <!-- Layer 2: On-screen Content -->
-    <div class="content-layer">
-      <!-- TOP: Timer -->
-      <div class="timer-overlay" id="timerBox">
-        <div class="status-badge">
-          <span class="pulse-dot"></span> Tassie Countdown
-        </div>
-        <div class="units-grid">
-          <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
-          <div class="unit"><span class="num" id="hours">--</span><span class="lbl">Hours</span></div>
-          <div class="unit"><span class="num" id="mins">--</span><span class="lbl">Mins</span></div>
-          <div class="unit"><span class="num" id="secs">--</span><span class="lbl">Secs</span></div>
-        </div>
+    <div class="vignette-overlay"></div>
+
+    <!-- Countdown Timer at the TOP -->
+    <div class="timer-overlay" id="timerBox">
+      <div class="status-badge">
+        <span class="pulse-dot"></span> Tassie Countdown
       </div>
+      <div class="units-grid">
+        <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
+        <div class="unit"><span class="num" id="hours">--</span><span class="lbl">Hours</span></div>
+        <div class="unit"><span class="num" id="mins">--</span><span class="lbl">Mins</span></div>
+        <div class="unit"><span class="num" id="secs">--</span><span class="lbl">Secs</span></div>
+      </div>
+    </div>
 
-      <!-- BOTTOM: Heading + Route -->
-      <div class="bottom-cluster">
-        <div class="bottom-heading">Tassie starts here</div>
+    <!-- Bottom Cluster: Heading Above Route Box -->
+    <div class="bottom-cluster">
+      <div class="bottom-heading">Tassie starts here</div>
 
-        <div class="route-container">
-          <div class="route-labels">
-            <div class="route-point">
-              <span class="port-name">📍 Geelong</span>
-              <span class="port-time">20th Nov • 6:45 PM</span>
-            </div>
-            <div class="route-point right">
-              <span class="port-name">Devonport 🏁</span>
-              <span class="port-time">21st Nov • 6:00 AM</span>
-            </div>
+      <div class="route-container">
+        <div class="route-labels">
+          <div class="route-point">
+            <span class="port-name">📍 Geelong</span>
+            <span class="port-time">20th Nov • 6:45 PM</span>
           </div>
-          <div class="route-track">
-            <span class="ship-icon">🚢</span>
+          <div class="route-point right">
+            <span class="port-name">Devonport 🏁</span>
+            <span class="port-time">21st Nov • 6:00 AM</span>
           </div>
+        </div>
+        <div class="route-track">
+          <span class="ship-icon">🚢</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Audio Element -->
+  <!-- Background Audio Element -->
   <audio id="bgMusic" loop preload="auto">
     <source src="Titanic.mp3" type="audio/mpeg">
     <source src="titanic.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // Target: November 20, 2026 at 6:45 PM (Month 10 is November in JS)
-    var targetDeparture = new Date(2026, 10, 20, 18, 45, 0).getTime();
+    // Target: November 20, 2026, 18:45:00 (Month index 10 = November)
+    const targetDeparture = new Date(2026, 10, 20, 18, 45, 0).getTime();
 
     function update() {
-      var now = Date.now();
-      var diff = targetDeparture - now;
+      const now = Date.now();
+      const diff = targetDeparture - now;
 
       if (diff <= 0) {
         document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Bon Voyage! 🚢</span>";
         return;
       }
 
-      var d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      var h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      var m = Math.floor((diff / (1000 * 60)) % 60);
-      var s = Math.floor((diff / 1000) % 60);
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
 
       document.getElementById('days').textContent = d;
       document.getElementById('hours').textContent = h;
@@ -323,22 +320,24 @@
     update();
     setInterval(update, 1000);
 
-    // Audio Autoplay & Screen Tap Handler
-    var audio = document.getElementById('bgMusic');
+    // Audio Autoplay & Tap Unlock Handler
+    const audio = document.getElementById('bgMusic');
 
     function playAudio() {
       if (audio && audio.paused) {
-        audio.play().then(function() {
-          ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(function(evt) {
+        audio.play().then(() => {
+          ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
             document.removeEventListener(evt, playAudio, true);
+            window.removeEventListener(evt, playAudio, true);
           });
-        }).catch(function() {});
+        }).catch(() => {});
       }
     }
 
     playAudio();
-    ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(function(evt) {
+    ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
       document.addEventListener(evt, playAudio, { capture: true, passive: true });
+      window.addEventListener(evt, playAudio, { capture: true, passive: true });
     });
   </script>
 </body>
