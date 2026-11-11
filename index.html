@@ -15,8 +15,6 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Montserrat", sans-serif;
       padding: 12px;
       overflow-x: hidden;
-      user-select: none;
-      -webkit-user-select: none;
     }
 
     .wrapper {
@@ -129,98 +127,75 @@
       margin-top: 3px;
     }
 
-    /* Interactive Audio Visualizer Pill */
-    .sound-pill {
+    /* Route Progress Indicator */
+    .route-container {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(7, 17, 30, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 82%;
+      max-width: 440px;
+      background: rgba(7, 17, 30, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 20px;
-      padding: 6px 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
+      padding: 6px 14px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      z-index: 15;
-      transition: all 0.2s ease;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    .sound-pill:hover {
-      background: rgba(15, 23, 42, 0.95);
-      transform: scale(1.05);
-    }
-
-    .sound-bars {
+    .route-labels {
       display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 12px;
-    }
-
-    .bar {
-      width: 2px;
-      background-color: #ffcc00;
-      border-radius: 1px;
-      height: 4px;
-      transition: height 0.2s ease;
-    }
-
-    .playing .bar1 { animation: eq 0.8s infinite ease-in-out alternate; }
-    .playing .bar2 { animation: eq 0.6s infinite ease-in-out alternate 0.2s; }
-    .playing .bar3 { animation: eq 0.7s infinite ease-in-out alternate 0.4s; }
-
-    @keyframes eq {
-      0% { height: 3px; }
-      100% { height: 12px; }
-    }
-
-    #soundLabel {
+      justify-content: space-between;
       font-size: 9px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
       color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+
+    .route-track {
+      position: relative;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+    }
+
+    .route-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 65%;
+      background: linear-gradient(90deg, #38bdf8, #ffcc00);
+      border-radius: 2px;
+    }
+
+    .ship-icon {
+      position: absolute;
+      right: -8px;
+      top: -9px;
+      font-size: 13px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     }
 
     /* Bottom "Tassie starts here" Banner */
     .bottom-heading {
       position: absolute;
-      bottom: 16px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
       text-align: center;
       color: #ffffff;
-      font-size: 34px;
+      font-size: 30px;
       font-weight: 900;
       letter-spacing: -0.5px;
       text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
       z-index: 10;
       pointer-events: none;
-    }
-
-    /* Ocean Ripple Tap Effect */
-    .ripple {
-      position: fixed;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(147, 197, 253, 0.5) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 70%);
-      border: 1px solid rgba(255, 255, 255, 0.85);
-      transform: translate(-50%, -50%) scale(0);
-      animation: ripple-anim 0.65s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    @keyframes ripple-anim {
-      to {
-        transform: translate(-50%, -50%) scale(5.5);
-        opacity: 0;
-      }
     }
 
     @media (max-width: 580px) {
@@ -243,17 +218,17 @@
       .lbl {
         font-size: 7px;
       }
-      .bottom-heading {
-        bottom: 10px;
-        font-size: 24px;
+      .route-container {
+        bottom: 46px;
+        width: 88%;
+        padding: 5px 12px;
       }
-      .sound-pill {
-        top: 10px;
-        right: 10px;
-        padding: 4px 8px;
-      }
-      #soundLabel {
+      .route-labels {
         font-size: 8px;
+      }
+      .bottom-heading {
+        bottom: 8px;
+        font-size: 20px;
       }
     }
   </style>
@@ -283,14 +258,18 @@
       </div>
     </div>
 
-    <!-- Interactive Glass Sound Equalizer Pill -->
-    <div id="soundToggle" class="sound-pill">
-      <div class="sound-bars">
-        <span class="bar bar1"></span>
-        <span class="bar bar2"></span>
-        <span class="bar bar3"></span>
+    <!-- Route Progress Indicator -->
+    <div class="route-container">
+      <div class="route-labels">
+        <span>📍 Geelong</span>
+        <span>Bass Strait</span>
+        <span>Devonport 🚢</span>
       </div>
-      <span id="soundLabel">Sound Off</span>
+      <div class="route-track">
+        <div class="route-progress" id="routeBar">
+          <span class="ship-icon">🚢</span>
+        </div>
+      </div>
     </div>
 
     <!-- Bottom Text Header -->
@@ -305,6 +284,9 @@
 
   <script>
     const targetDate = new Date("2026-11-19T23:59:59").getTime();
+    // Assuming start of the journey countdown window
+    const startDate = new Date("2026-11-01T00:00:00").getTime();
+    const totalDuration = targetDate - startDate;
 
     function update() {
       const now = new Date().getTime();
@@ -312,6 +294,7 @@
 
       if (isNaN(diff) || diff <= 0) {
         document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>We're off! 🚢</span>";
+        document.getElementById('routeBar').style.width = '100%';
         return;
       }
 
@@ -319,67 +302,21 @@
       document.getElementById('hours').textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
       document.getElementById('mins').textContent = Math.floor((diff / (1000 * 60)) % 60);
       document.getElementById('secs').textContent = Math.floor((diff / 1000) % 60);
+
+      // Advance ship along the route track
+      const elapsed = now - startDate;
+      const progressPercent = Math.min(Math.max((elapsed / totalDuration) * 100, 10), 95);
+      document.getElementById('routeBar').style.width = progressPercent + '%';
     }
 
     update();
     setInterval(update, 1000);
 
-    // Audio & Equalizer Logic
+    // Audio Autoplay & Unlock Handler
     const audio = document.getElementById('bgMusic');
-    const soundToggle = document.getElementById('soundToggle');
-    const soundLabel = document.getElementById('soundLabel');
 
-    function syncSoundUI() {
-      if (!audio.paused) {
-        soundToggle.classList.add('playing');
-        soundLabel.textContent = 'Music On';
-      } else {
-        soundToggle.classList.remove('playing');
-        soundLabel.textContent = 'Muted';
-      }
-    }
-
-    function toggleAudio(e) {
-      if (e) e.stopPropagation();
-      if (audio.paused) {
-        audio.play().then(syncSoundUI).catch(() => {});
-      } else {
-        audio.pause();
-        syncSoundUI();
-      }
-    }
-
-    soundToggle.addEventListener('click', toggleAudio);
-
-    // Autoplay Unlock on First User Touch/Click
-    function unlockAudio() {
+    function forcePlayAudio() {
       if (audio && audio.paused) {
         audio.play().then(() => {
-          syncSoundUI();
           ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
-            document.removeEventListener(evt, unlockAudio, true);
-          });
-        }).catch(() => {});
-      }
-    }
-
-    unlockAudio();
-    ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
-      document.addEventListener(evt, unlockAudio, { capture: true, passive: true });
-    });
-
-    // Ocean Ripple Animation on Screen Tap / Click
-    window.addEventListener('pointerdown', (e) => {
-      // Don't trigger ripple if clicking the mute toggle
-      if (e.target.closest('#soundToggle')) return;
-
-      const ripple = document.createElement('div');
-      ripple.className = 'ripple';
-      ripple.style.left = `${e.clientX}px`;
-      ripple.style.top = `${e.clientY}px`;
-      document.body.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 650);
-    });
-  </script>
-</body>
-</html>
+            document.removeEventListener(evt, forcePlayAudio, true
