@@ -59,9 +59,9 @@
     .timer-overlay {
       position: absolute;
       top: 14px;
-      left: 33%;
+      left: 35%;
       transform: translateX(-50%);
-      background: rgba(7, 17, 30, 0.82);
+      background: rgba(7, 17, 30, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 14px;
       padding: 8px 18px;
@@ -128,18 +128,18 @@
       margin-top: 3px;
     }
 
-    /* RIGHT SIDE EMBEDDED: Frosted Glass Tasmania Map Overlay */
+    /* RIGHT SIDE EMBEDDED: Compact Frosted Glass Tasmania Map Overlay */
     .embedded-map {
       position: absolute;
       top: 14px;
       right: 14px;
       bottom: 14px;
-      width: 34%;
-      max-width: 315px;
+      width: 28%;
+      max-width: 255px;
       background: rgba(7, 17, 30, 0.72);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 14px;
-      padding: 10px 10px 6px 10px;
+      padding: 8px 8px 6px 8px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 8px 28px rgba(0, 0, 0, 0.65);
@@ -159,7 +159,7 @@
     }
 
     .map-title {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       letter-spacing: 0.6px;
       text-transform: uppercase;
@@ -167,7 +167,7 @@
     }
 
     .map-subtitle {
-      font-size: 8.5px;
+      font-size: 8px;
       color: #93c5fd;
       font-weight: 600;
     }
@@ -220,14 +220,14 @@
       dominant-baseline: central;
     }
 
-    /* BOTTOM LEFT-CENTER: Heading Above Ferry Route Box */
+    /* BOTTOM LEFT-CENTER: Heading Above Ferry Route Box (Cleared of map) */
     .bottom-cluster {
       position: absolute;
       bottom: 14px;
-      left: 33%;
+      left: 35%;
       transform: translateX(-50%);
-      width: 58%;
-      max-width: 480px;
+      width: 62%;
+      max-width: 520px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -303,14 +303,14 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     }
 
-    /* Mobile Portrait Adjustments so elements stay inside single ship card cleanly */
+    /* Mobile Portrait Adjustments */
     @media (max-width: 720px) {
       .wrapper {
         aspect-ratio: 4 / 3;
       }
       .timer-overlay {
         top: 8px;
-        left: 31%;
+        left: 33%;
         padding: 5px 10px;
       }
       .units-grid { gap: 6px; }
@@ -323,16 +323,16 @@
         top: 8px;
         right: 8px;
         bottom: 8px;
-        width: 37%;
-        padding: 6px 6px 4px 6px;
+        width: 31%;
+        padding: 5px 5px 4px 5px;
       }
-      .map-title { font-size: 8px; }
+      .map-title { font-size: 7.5px; }
       .map-subtitle { display: none; }
 
       .bottom-cluster {
         bottom: 8px;
-        left: 31%;
-        width: 57%;
+        left: 33%;
+        width: 60%;
         gap: 4px;
       }
       .bottom-heading { font-size: 14px; }
@@ -357,7 +357,7 @@
     <!-- TOP LEFT-CENTER: Countdown Timer -->
     <div class="timer-overlay" id="timerBox">
       <div class="status-badge">
-        <span class="pulse-dot"></span> Sydney Departure
+        <span class="pulse-dot"></span> Tassie Countdown
       </div>
       <div class="units-grid">
         <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
@@ -388,7 +388,7 @@
       </div>
     </div>
 
-    <!-- RIGHT SIDE EMBEDDED: Frosted Glass Tasmania Road Trip Map -->
+    <!-- RIGHT SIDE EMBEDDED: Compact Frosted Glass Tasmania Road Trip Map -->
     <div class="embedded-map">
       <div class="map-header">
         <span class="map-title">🗺️ Tassie Route</span>
@@ -579,7 +579,7 @@
   </audio>
 
   <script>
-    // Target: November 19, 2026, 23:59:00 (Sydney Departure)
+    // Target: November 19, 2026, 23:59:00
     const targetDeparture = new Date(2026, 10, 19, 23, 59, 0).getTime();
 
     function update() {
@@ -587,7 +587,7 @@
       const diff = targetDeparture - now;
 
       if (diff <= 0) {
-        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Sydney Departure! 🚗💨</span>";
+        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Tassie Bound! 🚢</span>";
         return;
       }
 
