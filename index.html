@@ -13,29 +13,20 @@
       justify-content: center;
       background-color: #07111e;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Montserrat", sans-serif;
-      padding: 16px;
+      padding: 12px;
       overflow-x: hidden;
     }
 
-    /* Main Split Layout Container */
-    .main-grid {
-      display: flex;
-      flex-direction: row;
-      gap: 18px;
-      max-width: 1220px;
-      width: 100%;
-      align-items: stretch;
-    }
-
-    /* LEFT SIDE: Existing Video & Countdown Card */
+    /* Single Unified Ship Card */
     .wrapper {
       position: relative;
-      flex: 1.45;
+      max-width: 960px;
+      width: 100%;
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.75);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
       background: #000;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 16 / 9;
     }
 
     .media-container {
@@ -59,18 +50,18 @@
     .vignette-overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, transparent 40%, rgba(7, 17, 30, 0.65) 100%);
+      background: radial-gradient(circle at 35% 50%, transparent 35%, rgba(7, 17, 30, 0.7) 100%);
       pointer-events: none;
       z-index: 2;
     }
 
-    /* Floating Countdown Pod at the Top */
+    /* TOP LEFT-CENTER: Floating Countdown Pod */
     .timer-overlay {
       position: absolute;
       top: 14px;
-      left: 50%;
+      left: 33%;
       transform: translateX(-50%);
-      background: rgba(7, 17, 30, 0.85);
+      background: rgba(7, 17, 30, 0.82);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 14px;
       padding: 8px 18px;
@@ -118,7 +109,7 @@
     .unit {
       display: flex;
       flex-direction: column;
-      min-width: 38px;
+      min-width: 36px;
     }
 
     .num {
@@ -137,14 +128,106 @@
       margin-top: 3px;
     }
 
-    /* Bottom Cluster: Heading Above Route Box */
+    /* RIGHT SIDE EMBEDDED: Frosted Glass Tasmania Map Overlay */
+    .embedded-map {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      bottom: 14px;
+      width: 34%;
+      max-width: 315px;
+      background: rgba(7, 17, 30, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      padding: 10px 10px 6px 10px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.65);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .map-title {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: #ffcc00;
+    }
+
+    .map-subtitle {
+      font-size: 8.5px;
+      color: #93c5fd;
+      font-weight: 600;
+    }
+
+    .svg-box {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .svg-box svg {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+    }
+
+    .route-line {
+      stroke-dasharray: 6, 5;
+      animation: dashMove 18s linear infinite;
+    }
+
+    @keyframes dashMove {
+      to { stroke-dashoffset: -110; }
+    }
+
+    .pin-label {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      fill: #0f172a;
+    }
+
+    .pin-sub {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-weight: 700;
+      font-size: 8.5px;
+      fill: #0369a1;
+    }
+
+    .pin-num {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-weight: 900;
+      font-size: 10px;
+      fill: #ffffff;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    /* BOTTOM LEFT-CENTER: Heading Above Ferry Route Box */
     .bottom-cluster {
       position: absolute;
-      bottom: 12px;
-      left: 50%;
+      bottom: 14px;
+      left: 33%;
       transform: translateX(-50%);
-      width: 90%;
-      max-width: 500px;
+      width: 58%;
+      max-width: 480px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -156,18 +239,18 @@
     .bottom-heading {
       text-align: center;
       color: #ffffff;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       letter-spacing: -0.5px;
-      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85), 0 6px 24px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9), 0 6px 24px rgba(0, 0, 0, 0.8);
     }
 
     .route-container {
       width: 100%;
-      background: rgba(7, 17, 30, 0.88);
+      background: rgba(7, 17, 30, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 12px;
-      padding: 8px 14px;
+      padding: 7px 12px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 4px 18px rgba(0,0,0,0.6);
@@ -190,7 +273,7 @@
     }
 
     .port-name {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       letter-spacing: 0.8px;
       text-transform: uppercase;
@@ -198,7 +281,7 @@
     }
 
     .port-time {
-      font-size: 8px;
+      font-size: 7.5px;
       font-weight: 600;
       color: #38bdf8;
       margin-top: 1px;
@@ -220,182 +303,95 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
     }
 
-    /* RIGHT SIDE: Illustrated Tasmania Road Trip Map Card */
-    .map-card {
-      flex: 1;
-      background: linear-gradient(145deg, #0b1c30 0%, #071322 100%);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 18px;
-      padding: 14px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.75);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .map-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .map-title {
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: #ffcc00;
-    }
-
-    .map-subtitle {
-      font-size: 10px;
-      color: #93c5fd;
-      font-weight: 600;
-    }
-
-    .svg-box {
-      width: 100%;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px 0;
-    }
-
-    .svg-box svg {
-      width: 100%;
-      height: auto;
-      max-height: 430px;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6));
-    }
-
-    /* Animated Driving Path */
-    .route-line {
-      stroke-dasharray: 6, 5;
-      animation: dashMove 18s linear infinite;
-    }
-
-    @keyframes dashMove {
-      to {
-        stroke-dashoffset: -110;
-      }
-    }
-
-    .pin-label {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-weight: 800;
-      font-size: 10.5px;
-      fill: #0f172a;
-    }
-
-    .pin-sub {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-weight: 700;
-      font-size: 8.5px;
-      fill: #0369a1;
-    }
-
-    .pin-num {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-weight: 900;
-      font-size: 9.5px;
-      fill: #ffffff;
-      text-anchor: middle;
-      dominant-baseline: central;
-    }
-
-    /* Responsive Stack on Mobile/Tablet */
-    @media (max-width: 920px) {
-      .main-grid {
-        flex-direction: column;
-        max-width: 640px;
-      }
-      .wrapper {
-        aspect-ratio: 16 / 10;
-      }
-      .svg-box svg {
-        max-height: 460px;
-      }
-    }
-
-    @media (max-width: 580px) {
+    /* Mobile Portrait Adjustments so elements stay inside single ship card cleanly */
+    @media (max-width: 720px) {
       .wrapper {
         aspect-ratio: 4 / 3;
       }
       .timer-overlay {
         top: 8px;
-        padding: 5px 12px;
+        left: 31%;
+        padding: 5px 10px;
       }
-      .units-grid { gap: 8px; }
-      .unit { min-width: 28px; }
-      .num { font-size: 16px; }
-      .lbl { font-size: 7px; }
+      .units-grid { gap: 6px; }
+      .unit { min-width: 24px; }
+      .num { font-size: 14px; }
+      .lbl { font-size: 6.5px; }
+      .status-badge { font-size: 7.5px; }
+
+      .embedded-map {
+        top: 8px;
+        right: 8px;
+        bottom: 8px;
+        width: 37%;
+        padding: 6px 6px 4px 6px;
+      }
+      .map-title { font-size: 8px; }
+      .map-subtitle { display: none; }
+
       .bottom-cluster {
         bottom: 8px;
-        width: 94%;
+        left: 31%;
+        width: 57%;
         gap: 4px;
       }
-      .bottom-heading { font-size: 18px; }
-      .route-container { padding: 5px 10px; }
-      .port-name { font-size: 9px; }
-      .port-time { font-size: 7px; }
+      .bottom-heading { font-size: 14px; }
+      .route-container { padding: 4px 8px; }
+      .port-name { font-size: 8px; }
+      .port-time { font-size: 6.5px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="main-grid">
-    <!-- LEFT: Countdown Video Card -->
-    <div class="wrapper">
-      <div class="media-container">
-        <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
-          <source src="tassie1.mp4" type="video/mp4">
-        </video>
+  <div class="wrapper">
+    <!-- Background Video -->
+    <div class="media-container">
+      <video id="bgVideo" autoplay muted loop playsinline poster="tassieship.PNG">
+        <source src="tassie1.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="vignette-overlay"></div>
+
+    <!-- TOP LEFT-CENTER: Countdown Timer -->
+    <div class="timer-overlay" id="timerBox">
+      <div class="status-badge">
+        <span class="pulse-dot"></span> Sydney Departure
       </div>
-
-      <div class="vignette-overlay"></div>
-
-      <!-- Countdown Timer at Top -->
-      <div class="timer-overlay" id="timerBox">
-        <div class="status-badge">
-          <span class="pulse-dot"></span> Sydney Departure
-        </div>
-        <div class="units-grid">
-          <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
-          <div class="unit"><span class="num" id="hours">--</span><span class="lbl">Hours</span></div>
-          <div class="unit"><span class="num" id="mins">--</span><span class="lbl">Mins</span></div>
-          <div class="unit"><span class="num" id="secs">--</span><span class="lbl">Secs</span></div>
-        </div>
+      <div class="units-grid">
+        <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
+        <div class="unit"><span class="num" id="hours">--</span><span class="lbl">Hours</span></div>
+        <div class="unit"><span class="num" id="mins">--</span><span class="lbl">Mins</span></div>
+        <div class="unit"><span class="num" id="secs">--</span><span class="lbl">Secs</span></div>
       </div>
+    </div>
 
-      <!-- Bottom Cluster: Heading Above Route Box -->
-      <div class="bottom-cluster">
-        <div class="bottom-heading">Tassie Adventure Starts Here</div>
+    <!-- BOTTOM LEFT-CENTER: Heading Above Ferry Progress Bar -->
+    <div class="bottom-cluster">
+      <div class="bottom-heading">Tassie Adventure Starts Here</div>
 
-        <div class="route-container">
-          <div class="route-labels">
-            <div class="route-point">
-              <span class="port-name">📍 Geelong</span>
-              <span class="port-time">20th Nov • 6:45 PM</span>
-            </div>
-            <div class="route-point right">
-              <span class="port-name">Devonport 🏁</span>
-              <span class="port-time">21st Nov • 6:00 AM</span>
-            </div>
+      <div class="route-container">
+        <div class="route-labels">
+          <div class="route-point">
+            <span class="port-name">📍 Geelong</span>
+            <span class="port-time">20th Nov • 6:45 PM</span>
           </div>
-          <div class="route-track">
-            <span class="ship-icon">🚢</span>
+          <div class="route-point right">
+            <span class="port-name">Devonport 🏁</span>
+            <span class="port-time">21st Nov • 6:00 AM</span>
           </div>
+        </div>
+        <div class="route-track">
+          <span class="ship-icon">🚢</span>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT: Custom Illustrated Tasmania Itinerary Map -->
-    <div class="map-card">
+    <!-- RIGHT SIDE EMBEDDED: Frosted Glass Tasmania Road Trip Map -->
+    <div class="embedded-map">
       <div class="map-header">
-        <span class="map-title">🗺️ Tassie Road Trip</span>
+        <span class="map-title">🗺️ Tassie Route</span>
         <span class="map-subtitle">Devonport → Hobart</span>
       </div>
 
@@ -407,17 +403,10 @@
               <stop offset="45%" stop-color="#4d7c0f" />
               <stop offset="100%" stop-color="#1e3a1e" />
             </linearGradient>
-            <linearGradient id="seaGlow" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.18" />
-              <stop offset="100%" stop-color="#0284c7" stop-opacity="0.05" />
-            </linearGradient>
             <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
-              <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.45"/>
+              <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
             </filter>
           </defs>
-
-          <!-- Ocean Aura -->
-          <circle cx="220" cy="215" r="195" fill="url(#seaGlow)" />
 
           <!-- Tasmania Mainland Silhouette -->
           <path d="M 78,62 
@@ -447,13 +436,12 @@
                    C 228,376 227,355 234,352 Z" 
                 fill="url(#islandGrad)" stroke="#bef264" stroke-width="2" />
 
-          <!-- Scenic Mountain Peaks (Cradle Mountain & Mt Wellington) -->
-          <polygon points="145,158 158,134 171,158" fill="#cbd5e1" opacity="0.85" />
-          <polygon points="158,158 170,138 182,158" fill="#94a3b8" opacity="0.85" />
-          <polygon points="205,326 215,308 225,326" fill="#cbd5e1" opacity="0.85" />
+          <!-- Mountain Peaks (Cradle Mountain & Mt Wellington) -->
+          <polygon points="145,158 158,134 171,158" fill="#cbd5e1" opacity="0.9" />
+          <polygon points="158,158 170,138 182,158" fill="#94a3b8" opacity="0.9" />
+          <polygon points="205,326 215,308 225,326" fill="#cbd5e1" opacity="0.9" />
 
           <!-- Driving Route Path -->
-          <!-- 1 Devonport (185,84) -> 2 Launceston (238,112) -> 3 Cradle Mtn (154,154) -> 4 St Helens/Bay of Fires (334,116) -> 5 Bicheno (326,184) -> 6 Freycinet (324,224) -> 7 Hobart (232,324) -> 8 Mt Wellington (214,322) -> 9 Bruny Island (235,372) -->
           <path d="M 185,84 
                    Q 212,92 238,112 
                    Q 195,126 154,154 
@@ -477,7 +465,7 @@
                    M 232,324 Q 234,348 235,372" 
                 fill="none" stroke="#fef08a" stroke-width="1.8" stroke-linecap="round" />
 
-          <!-- STOP DOTS ON MAP -->
+          <!-- STOP DOTS -->
           <circle cx="185" cy="84" r="4.5" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
           <circle cx="238" cy="112" r="4.5" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
           <circle cx="154" cy="154" r="4.5" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
