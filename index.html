@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tassie Adventure Starts Here - Full Itinerary & Countdown</title>
+  <title>Tassie Adventure Starts Here - 7 Day Loop Tassie Road Trip 2026</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -20,7 +20,7 @@
     /* Single Unified Ship Card */
     .wrapper {
       position: relative;
-      max-width: 980px;
+      max-width: 1020px;
       width: 100%;
       border-radius: 18px;
       overflow: hidden;
@@ -59,10 +59,10 @@
     .timer-overlay {
       position: absolute;
       top: 14px;
-      left: 34%;
+      left: 33%;
       transform: translateX(-50%);
-      background: rgba(7, 17, 30, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(7, 17, 30, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 14px;
       padding: 8px 18px;
       display: flex;
@@ -71,7 +71,7 @@
       gap: 6px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
       z-index: 10;
     }
 
@@ -79,8 +79,8 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 9px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 800;
       letter-spacing: 1.2px;
       text-transform: uppercase;
       color: #93c5fd;
@@ -88,8 +88,8 @@
     }
 
     .pulse-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       background-color: #22c55e;
       border-radius: 50%;
       box-shadow: 0 0 8px #22c55e;
@@ -110,22 +110,23 @@
     .unit {
       display: flex;
       flex-direction: column;
-      min-width: 36px;
+      min-width: 38px;
     }
 
     .num {
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 21px;
+      font-weight: 800;
       color: #ffcc00;
       line-height: 1.1;
       text-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
     .lbl {
-      font-size: 8px;
+      font-size: 8.5px;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: #cbd5e1;
+      color: #e2e8f0;
       margin-top: 3px;
     }
 
@@ -135,15 +136,15 @@
       top: 12px;
       right: 12px;
       bottom: 12px;
-      width: 30%;
-      max-width: 275px;
-      background: rgba(7, 17, 30, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      width: 32%;
+      max-width: 300px;
+      background: rgba(7, 17, 30, 0.84);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 14px;
-      padding: 8px 8px 6px 8px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.65);
+      padding: 10px 10px 8px 10px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -152,23 +153,24 @@
 
     .map-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 4px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      flex-direction: column;
+      gap: 2px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     .map-title {
-      font-size: 9.5px;
+      font-size: 11.5px;
       font-weight: 800;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
+      letter-spacing: 0.3px;
       color: #ffcc00;
+      line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .map-subtitle {
-      font-size: 8px;
-      color: #93c5fd;
+      font-size: 9.5px;
+      color: #bae6fd;
       font-weight: 600;
     }
 
@@ -186,7 +188,7 @@
       width: 100%;
       height: 100%;
       max-height: 100%;
-      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.65));
     }
 
     .route-line {
@@ -220,21 +222,22 @@
     .stop-group.active rect {
       fill: #ffcc00;
       stroke: #ffffff;
-      stroke-width: 1.5;
+      stroke-width: 1.8;
     }
 
     .pin-label {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-weight: 800;
-      font-size: 10.5px;
-      fill: #0f172a;
+      font-size: 12.5px;
+      fill: #090d16;
+      letter-spacing: -0.2px;
       pointer-events: none;
     }
 
     .pin-sub {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-weight: 700;
-      font-size: 8px;
+      font-size: 9.5px;
       fill: #0369a1;
       pointer-events: none;
     }
@@ -242,7 +245,7 @@
     .pin-num {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-weight: 900;
-      font-size: 9.5px;
+      font-size: 11px;
       fill: #ffffff;
       text-anchor: middle;
       dominant-baseline: central;
@@ -251,11 +254,11 @@
 
     /* Interactive Stop Highlight Card inside Map */
     .stop-info-card {
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid rgba(255, 204, 0, 0.48);
-      border-radius: 9px;
-      padding: 6px 8px;
-      margin-top: 3px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(255, 204, 0, 0.55);
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-top: 4px;
       transition: all 0.2s ease;
     }
 
@@ -263,39 +266,40 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       gap: 4px;
     }
 
     .stop-info-title {
-      font-size: 9px;
+      font-size: 11px;
       font-weight: 800;
       color: #ffcc00;
     }
 
     .stop-info-leg {
-      font-size: 7.5px;
+      font-size: 9px;
       font-weight: 700;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.16);
-      padding: 1px 5px;
+      color: #7dd3fc;
+      background: rgba(56, 189, 248, 0.18);
+      padding: 2px 6px;
       border-radius: 6px;
       white-space: nowrap;
     }
 
     .stop-info-desc {
-      font-size: 7.8px;
-      line-height: 1.32;
-      color: #e2e8f0;
+      font-size: 10px;
+      line-height: 1.38;
+      color: #f8fafc;
+      font-weight: 500;
     }
 
     /* BOTTOM LEFT-CENTER: Heading Above Ferry Route Box */
     .bottom-cluster {
       position: absolute;
       bottom: 14px;
-      left: 34%;
+      left: 33%;
       transform: translateX(-50%);
-      width: 60%;
+      width: 59%;
       max-width: 510px;
       display: flex;
       flex-direction: column;
@@ -316,8 +320,8 @@
 
     .route-container {
       width: 100%;
-      background: rgba(7, 17, 30, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(7, 17, 30, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.24);
       border-radius: 12px;
       padding: 7px 12px;
       backdrop-filter: blur(8px);
@@ -342,7 +346,7 @@
     }
 
     .port-name {
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.8px;
       text-transform: uppercase;
@@ -350,16 +354,16 @@
     }
 
     .port-time {
-      font-size: 7.5px;
+      font-size: 8.5px;
       font-weight: 600;
-      color: #38bdf8;
+      color: #7dd3fc;
       margin-top: 1px;
     }
 
     .route-track {
       position: relative;
       height: 4px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.22);
       border-radius: 2px;
       margin: 4px 0 2px 0;
     }
@@ -392,39 +396,39 @@
       }
       .timer-overlay {
         top: 8px;
-        left: 32%;
+        left: 31%;
         padding: 5px 10px;
       }
       .units-grid { gap: 6px; }
       .unit { min-width: 24px; }
       .num { font-size: 14px; }
       .lbl { font-size: 6.5px; }
-      .status-badge { font-size: 7px; }
+      .status-badge { font-size: 7.5px; }
 
       .embedded-map {
         top: 8px;
         right: 8px;
         bottom: 8px;
-        width: 34%;
-        padding: 5px 5px 4px 5px;
+        width: 36%;
+        padding: 6px 6px 5px 6px;
       }
-      .map-title { font-size: 7.5px; }
-      .map-subtitle { display: none; }
-      .stop-info-card { padding: 4px 5px; }
-      .stop-info-title { font-size: 7.5px; }
+      .map-title { font-size: 8.5px; }
+      .map-subtitle { font-size: 7px; }
+      .stop-info-card { padding: 4px 6px; }
+      .stop-info-title { font-size: 8.5px; }
       .stop-info-leg { display: none; }
-      .stop-info-desc { font-size: 6.5px; line-height: 1.2; }
+      .stop-info-desc { font-size: 7.5px; line-height: 1.25; }
 
       .bottom-cluster {
         bottom: 8px;
-        left: 32%;
-        width: 58%;
+        left: 31%;
+        width: 57%;
         gap: 4px;
       }
       .bottom-heading { font-size: 14px; }
       .route-container { padding: 4px 8px; }
-      .port-name { font-size: 8px; }
-      .port-time { font-size: 6.5px; }
+      .port-name { font-size: 8.5px; }
+      .port-time { font-size: 7px; }
     }
   </style>
 </head>
@@ -478,12 +482,12 @@
     <!-- RIGHT SIDE EMBEDDED: Interactive 7-Day Tasmania Loop Map -->
     <div class="embedded-map">
       <div class="map-header">
-        <span class="map-title">🗺️ 7-Day Loop</span>
-        <span class="map-subtitle">Tap any stop</span>
+        <span class="map-title">🗺️ 7 Day Loop Tassie Road Trip 2026</span>
+        <span class="map-subtitle">Tap any numbered stop below</span>
       </div>
 
       <div class="svg-box">
-        <svg viewBox="0 0 440 430" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 450 435" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="islandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#84cc16" />
@@ -491,7 +495,7 @@
               <stop offset="100%" stop-color="#1e3a1e" />
             </linearGradient>
             <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
-              <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
+              <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.6"/>
             </filter>
           </defs>
 
@@ -528,8 +532,7 @@
           <polygon points="158,158 170,138 182,158" fill="#94a3b8" opacity="0.9" />
           <polygon points="198,320 208,302 218,320" fill="#cbd5e1" opacity="0.9" />
 
-          <!-- OUTBOUND DRIVING PATH (Red/Yellow) -->
-          <!-- 1 Devonport(185,84) <-> 2 Launceston/Lavender(238,108) -> 3 Cradle Mtn(154,154) -> 4 St Helens/Bay of Fires(334,116) <-> 5 Legerwood/Blue Lake(292,102) -> 6 Bicheno(326,184) -> 7 Freycinet(324,224) -> 8 Hobart(234,324) <-> 9 Mt Wellington/Russell Falls/Richmond(206,310) & 10 Bruny(235,372) -->
+          <!-- OUTBOUND DRIVING PATH -->
           <path d="M 185,84 
                    Q 212,92 238,108 
                    Q 195,126 154,154 
@@ -555,7 +558,7 @@
                    M 234,324 Q 234,348 235,372" 
                 fill="none" stroke="#fef08a" stroke-width="1.6" stroke-linecap="round" />
 
-          <!-- RETURN LEG PATH: Hobart(234,324) -> Campbell Town(246,195) -> Devonport(185,84) -->
+          <!-- RETURN LEG PATH: Hobart -> Campbell Town -> Devonport -->
           <path class="return-line"
                 d="M 234,324 Q 248,255 246,195 Q 222,135 185,84"
                 fill="none" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round" />
@@ -573,109 +576,109 @@
           <circle cx="235" cy="372" r="4.5" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
           <circle cx="246" cy="195" r="4.5" fill="#0284c7" stroke="#fff" stroke-width="1.5" />
 
-          <!-- INTERACTIVE CALLOUT BADGES -->
+          <!-- INTERACTIVE CALLOUT BADGES (Larger, Crisp Labels) -->
           <!-- 1. Devonport -->
           <g class="stop-group active" data-stop="0" filter="url(#cardShadow)">
-            <line x1="185" y1="84" x2="168" y2="38" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="106" y="16" width="96" height="23" rx="11.5" fill="#ffffff" />
-            <circle cx="119" cy="27.5" r="8" fill="#ef4444" />
-            <text x="119" y="27.5" class="pin-num">1</text>
-            <text x="131" y="31" class="pin-label">Devonport</text>
+            <line x1="185" y1="84" x2="165" y2="38" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="96" y="13" width="112" height="26" rx="13" fill="#ffffff" />
+            <circle cx="110" cy="26" r="9" fill="#ef4444" />
+            <text x="110" y="26" class="pin-num">1</text>
+            <text x="124" y="30.5" class="pin-label">Devonport</text>
           </g>
 
           <!-- 2. Launceston & Lavender -->
           <g class="stop-group" data-stop="1" filter="url(#cardShadow)">
-            <line x1="238" y1="108" x2="255" y2="62" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="224" y="40" width="108" height="23" rx="11.5" fill="#ffffff" />
-            <circle cx="237" cy="51.5" r="8" fill="#ef4444" />
-            <text x="237" y="51.5" class="pin-num">2</text>
-            <text x="249" y="55" class="pin-label">Launceston</text>
+            <line x1="238" y1="108" x2="255" y2="62" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="220" y="38" width="122" height="26" rx="13" fill="#ffffff" />
+            <circle cx="234" cy="51" r="9" fill="#ef4444" />
+            <text x="234" y="51" class="pin-num">2</text>
+            <text x="248" y="55.5" class="pin-label">Launceston</text>
           </g>
 
           <!-- 3. Cradle Mountain -->
           <g class="stop-group" data-stop="2" filter="url(#cardShadow)">
-            <line x1="154" y1="154" x2="108" y2="165" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="10" y="150" width="104" height="30" rx="10" fill="#ffffff" />
-            <circle cx="23" cy="165" r="8" fill="#ef4444" />
-            <text x="23" y="165" class="pin-num">3</text>
-            <text x="35" y="162" class="pin-label">Cradle</text>
-            <text x="35" y="173" class="pin-label">Mountain</text>
+            <line x1="154" y1="154" x2="108" y2="165" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="6" y="148" width="114" height="34" rx="11" fill="#ffffff" />
+            <circle cx="20" cy="165" r="9" fill="#ef4444" />
+            <text x="20" y="165" class="pin-num">3</text>
+            <text x="34" y="161.5" class="pin-label">Cradle</text>
+            <text x="34" y="174.5" class="pin-label">Mountain</text>
           </g>
 
           <!-- 4. St Helens & Bay of Fires -->
           <g class="stop-group" data-stop="3" filter="url(#cardShadow)">
-            <line x1="334" y1="116" x2="348" y2="105" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="334" y="84" width="102" height="30" rx="10" fill="#ffffff" />
-            <circle cx="347" cy="99" r="8" fill="#ef4444" />
-            <text x="347" y="99" class="pin-num">4</text>
-            <text x="359" y="96" class="pin-label">St Helens</text>
-            <text x="359" y="107" class="pin-sub">Bay of Fires</text>
+            <line x1="334" y1="116" x2="348" y2="105" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="330" y="82" width="114" height="34" rx="11" fill="#ffffff" />
+            <circle cx="344" cy="99" r="9" fill="#ef4444" />
+            <text x="344" y="99" class="pin-num">4</text>
+            <text x="358" y="95.5" class="pin-label">St Helens</text>
+            <text x="358" y="108.5" class="pin-sub">Bay of Fires</text>
           </g>
 
           <!-- 5. Blue Lake & Legerwood -->
           <g class="stop-group" data-stop="4" filter="url(#cardShadow)">
-            <line x1="292" y1="102" x2="275" y2="85" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="196" y="72" width="96" height="22" rx="11" fill="#ffffff" />
-            <circle cx="208" cy="83" r="7.5" fill="#ef4444" />
-            <text x="208" y="83" class="pin-num">5</text>
-            <text x="219" y="86.5" class="pin-label">Blue Lake</text>
+            <line x1="292" y1="102" x2="275" y2="85" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="186" y="70" width="110" height="25" rx="12.5" fill="#ffffff" />
+            <circle cx="200" cy="82.5" r="8.5" fill="#ef4444" />
+            <text x="200" y="82.5" class="pin-num">5</text>
+            <text x="213" y="87" class="pin-label">Blue Lake</text>
           </g>
 
           <!-- 6. Bicheno Blowhole -->
           <g class="stop-group" data-stop="5" filter="url(#cardShadow)">
-            <line x1="326" y1="184" x2="346" y2="178" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="342" y="164" width="84" height="23" rx="11.5" fill="#ffffff" />
-            <circle cx="355" cy="175.5" r="8" fill="#ef4444" />
-            <text x="355" y="175.5" class="pin-num">6</text>
-            <text x="367" y="179" class="pin-label">Bicheno</text>
+            <line x1="326" y1="184" x2="346" y2="178" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="340" y="162" width="96" height="26" rx="13" fill="#ffffff" />
+            <circle cx="354" cy="175" r="9" fill="#ef4444" />
+            <text x="354" y="175" class="pin-num">6</text>
+            <text x="368" y="179.5" class="pin-label">Bicheno</text>
           </g>
 
           <!-- 7. Freycinet & Devil's Corner -->
           <g class="stop-group" data-stop="6" filter="url(#cardShadow)">
-            <line x1="324" y1="224" x2="344" y2="232" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="336" y="218" width="100" height="30" rx="10" fill="#ffffff" />
-            <circle cx="349" cy="233" r="8" fill="#ef4444" />
-            <text x="349" y="233" class="pin-num">7</text>
-            <text x="361" y="230" class="pin-label">Freycinet</text>
-            <text x="361" y="241" class="pin-sub">Wineglass Bay</text>
+            <line x1="324" y1="224" x2="344" y2="232" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="332" y="216" width="112" height="34" rx="11" fill="#ffffff" />
+            <circle cx="346" cy="233" r="9" fill="#ef4444" />
+            <text x="346" y="233" class="pin-num">7</text>
+            <text x="360" y="229.5" class="pin-label">Freycinet</text>
+            <text x="360" y="242.5" class="pin-sub">Wineglass Bay</text>
           </g>
 
           <!-- 8. Hobart -->
           <g class="stop-group" data-stop="7" filter="url(#cardShadow)">
-            <line x1="234" y1="324" x2="288" y2="305" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="282" y="290" width="84" height="23" rx="11.5" fill="#ffffff" />
-            <circle cx="295" cy="301.5" r="8" fill="#ef4444" />
-            <text x="295" y="301.5" class="pin-num">8</text>
-            <text x="307" y="305" class="pin-label">Hobart</text>
+            <line x1="234" y1="324" x2="288" y2="305" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="282" y="288" width="94" height="26" rx="13" fill="#ffffff" />
+            <circle cx="296" cy="301" r="9" fill="#ef4444" />
+            <text x="296" y="301" class="pin-num">8</text>
+            <text x="310" y="305.5" class="pin-label">Hobart</text>
           </g>
 
           <!-- 9. Mt Wellington, Richmond & Russell Falls -->
           <g class="stop-group" data-stop="8" filter="url(#cardShadow)">
-            <line x1="206" y1="310" x2="142" y2="305" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="26" y="290" width="122" height="30" rx="10" fill="#ffffff" />
-            <circle cx="39" cy="305" r="8" fill="#f59e0b" />
-            <text x="39" y="305" class="pin-num">9</text>
-            <text x="51" y="302" class="pin-label">Mt Wellington</text>
-            <text x="51" y="313" class="pin-sub">Richmond • Falls</text>
+            <line x1="206" y1="310" x2="142" y2="305" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="14" y="288" width="136" height="34" rx="11" fill="#ffffff" />
+            <circle cx="28" cy="305" r="9" fill="#f59e0b" />
+            <text x="28" y="305" class="pin-num">9</text>
+            <text x="42" y="301.5" class="pin-label">Mt Wellington</text>
+            <text x="42" y="314.5" class="pin-sub">Richmond • Falls</text>
           </g>
 
           <!-- 10. Bruny Island -->
           <g class="stop-group" data-stop="9" filter="url(#cardShadow)">
-            <line x1="235" y1="372" x2="282" y2="375" stroke="#ffffff" stroke-width="1.4" />
-            <rect x="278" y="360" width="108" height="25" rx="12" fill="#ffffff" />
-            <circle cx="291" cy="372.5" r="8.5" fill="#ef4444" />
-            <text x="291" y="372.5" class="pin-num">10</text>
-            <text x="304" y="376" class="pin-label">Bruny Island</text>
+            <line x1="235" y1="372" x2="282" y2="375" stroke="#ffffff" stroke-width="1.5" />
+            <rect x="276" y="358" width="122" height="28" rx="14" fill="#ffffff" />
+            <circle cx="291" cy="372" r="9.5" fill="#ef4444" />
+            <text x="291" y="372" class="pin-num">10</text>
+            <text x="305" y="376.5" class="pin-label">Bruny Island</text>
           </g>
 
           <!-- 11. Campbell Town (Return Coffee Stop) -->
           <g class="stop-group" data-stop="10" filter="url(#cardShadow)">
-            <line x1="246" y1="195" x2="155" y2="215" stroke="#38bdf8" stroke-width="1.4" />
-            <rect x="44" y="204" width="116" height="28" rx="10" fill="#e0f2fe" />
-            <circle cx="57" cy="218" r="8" fill="#0284c7" />
-            <text x="57" y="218" class="pin-num">11</text>
-            <text x="69" y="215" class="pin-label">Campbell Town</text>
-            <text x="69" y="226" class="pin-sub">☕ Fri Return Stop</text>
+            <line x1="246" y1="195" x2="155" y2="215" stroke="#38bdf8" stroke-width="1.5" />
+            <rect x="30" y="202" width="132" height="32" rx="11" fill="#e0f2fe" />
+            <circle cx="44" cy="218" r="9" fill="#0284c7" />
+            <text x="44" y="218" class="pin-num">11</text>
+            <text x="58" y="214.5" class="pin-label">Campbell Town</text>
+            <text x="58" y="227.5" class="pin-sub">☕ Fri Return Stop</text>
           </g>
 
           <!-- Compass Rose -->
@@ -683,7 +686,7 @@
             <circle cx="0" cy="0" r="16" fill="rgba(7,17,30,0.6)" stroke="rgba(255,255,255,0.25)" stroke-width="1" />
             <polygon points="0,-11 2.5,0 0,11 -2.5,0" fill="#ffcc00" />
             <polygon points="-11,0 0,-2.5 11,0 0,2.5" fill="#93c5fd" />
-            <text x="0" y="-18" fill="#cbd5e1" font-size="7.5" font-weight="800" text-anchor="middle">N</text>
+            <text x="0" y="-18" fill="#cbd5e1" font-size="8.5" font-weight="800" text-anchor="middle">N</text>
           </g>
         </svg>
       </div>
@@ -691,10 +694,10 @@
       <!-- Interactive Stop Highlight Card -->
       <div class="stop-info-card" id="stopInfoCard">
         <div class="stop-info-top">
-          <span class="stop-info-title" id="stopTitle">1. Devonport Arrival</span>
-          <span class="stop-info-leg" id="stopLeg">Sat 21 Nov • 6 AM</span>
+          <span class="stop-info-title" id="stopTitle">1. Devonport Arrival & Base</span>
+          <span class="stop-info-leg" id="stopLeg">Sat 21 Nov</span>
         </div>
-        <div class="stop-info-desc" id="stopDesc">Disembark Spirit of Tasmania, head to Launceston & return to Devonport for Night 1.</div>
+        <div class="stop-info-desc" id="stopDesc">6:00 AM arrival on Spirit of Tasmania. Day trip east to Launceston & back to Devonport to stay.</div>
       </div>
     </div>
   </div>
@@ -799,7 +802,7 @@
     const stopsData = [
       {
         title: "1. Devonport Arrival & Base",
-        leg: "Sat 21 Nov • Night 1",
+        leg: "Sat 21 Nov",
         desc: "6:00 AM arrival on Spirit of Tasmania. Day trip east to Launceston & back to Devonport to stay."
       },
       {
@@ -814,12 +817,12 @@
       },
       {
         title: "4. St Helens & Bay of Fires",
-        leg: "Sun 22 – Mon 23 Nov",
+        leg: "22–23 Nov",
         desc: "2-night base. Explore Binalong Bay, The Gardens & glowing orange lichen boulders."
       },
       {
         title: "5. Blue Lake & Legerwood",
-        leg: "Mon 23 Nov Loop",
+        leg: "Mon 23 Nov",
         desc: "Scenic inland loop to Little Blue Lake & Legerwood Carved Memorial Trees from St Helens."
       },
       {
@@ -834,7 +837,7 @@
       },
       {
         title: "8. Hobart Base",
-        leg: "Tue 24 – Thu 26 Nov",
+        leg: "24–26 Nov",
         desc: "Southern hub for Salamanca waterfront, Bruny Island day trip & mountain excursions."
       },
       {
@@ -849,7 +852,7 @@
       },
       {
         title: "11. Campbell Town Coffee Stop",
-        leg: "Fri 27 Nov Return",
+        leg: "Fri 27 Nov",
         desc: "Midlands Highway coffee break & Red Bridge walk on the drive back to Devonport for the ferry home."
       }
     ];
