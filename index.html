@@ -572,6 +572,10 @@
       </div>
     </div>
   </div>
+<!-- Subtle Skip Track Button (Bottom Right Corner) -->
+  <button id="nextTrackBtn" title="Next Song" style="position: fixed; bottom: 14px; right: 14px; z-index: 50; background: rgba(7, 17, 30, 0.85); color: #ffcc00; border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; backdrop-filter: blur(8px);">
+    🎵 Next Track ⏭
+  </button>
 
   <!-- Background Audio Element -->
   <audio id="bgMusic" loop preload="auto"></audio>
@@ -580,9 +584,46 @@
     // Target: November 19, 2026, 23:59:00
     const targetDeparture = new Date(2026, 10, 19, 23, 59, 0).getTime();
 
+    // ==========================================
+    // 90-MINUTE REAL-TIME PLAYLIST CONTROLLER
+    // ==========================================
+    const playlist = [
+      "TheNights.mp3",
+      "SP1.mp3",
+      "headlights.mp3",
+      "headlight4.mp3"
+    ];
+
+    const DURATION_PER_SONG = 90 * 60 * 1000; // 90 minutes in milliseconds
+    let currentTrackIndex = 0;
+    let trackStartTime = Date.now();
+    const audio = document.getElementById('bgMusic');
+
+    function loadAndPlay(index) {
+      currentTrackIndex = index % playlist.length;
+      audio.src = playlist[currentTrackIndex];
+      audio.load();
+      trackStartTime = Date.now();
+      audio.play().catch(() => {});
+    }
+
+    // Set initial track
+    audio.src = playlist[currentTrackIndex];
+
+    // Manual skip button so you can test all 4 songs right away
+    document.getElementById('nextTrackBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadAndPlay(currentTrackIndex + 1);
+    });
+
     function update() {
       const now = Date.now();
       const diff = targetDeparture - now;
+
+      // Check real elapsed time every second (immune to mobile sleep/throttling)
+      if (!audio.paused && (now - trackStartTime >= DURATION_PER_SONG)) {
+        loadAndPlay(currentTrackIndex + 1);
+      }
 
       if (diff <= 0) {
         document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Tassie Bound! 🚢</span>";
@@ -603,42 +644,11 @@
     update();
     setInterval(update, 1000);
 
-    // ==========================================
-    // 90-MINUTE PLAYLIST ROTATION CONTROLLER
-    // ==========================================
-    const playlist = [
-      "TheNights.mp3",
-      "SP1.mp3",
-      "headlights.mp3",
-      "headlight4.mp3",
-    ];
-
-    const DURATION_PER_SONG = 90 * 60 * 1000; // 90 minutes in milliseconds
-    let currentTrackIndex = 0;
-    let rotationTimer = null;
-    const audio = document.getElementById('bgMusic');
-
-    function loadTrack(index) {
-      audio.src = playlist[index];
-      audio.load();
-    }
-
-    function startRotationTimer() {
-      clearTimeout(rotationTimer);
-      rotationTimer = setTimeout(() => {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-        loadTrack(currentTrackIndex);
-        audio.play().catch(() => {});
-        startRotationTimer();
-      }, DURATION_PER_SONG);
-    }
-
-    loadTrack(currentTrackIndex);
-
+    // Audio Autoplay & Screen Tap Handler
     function playAudio() {
       if (audio && audio.paused) {
         audio.play().then(() => {
-          startRotationTimer();
+          trackStartTime = Date.now();
           ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
             document.removeEventListener(evt, playAudio, true);
             window.removeEventListener(evt, playAudio, true);
@@ -653,5 +663,8 @@
       window.addEventListener(evt, playAudio, { capture: true, passive: true });
     });
   </script>
+</body>
+</html>
+  
 </body>
 </html>
