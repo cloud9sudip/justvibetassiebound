@@ -574,9 +574,7 @@
   </div>
 
   <!-- Background Audio Element -->
-  <audio id="bgMusic" loop preload="auto">
-    <source src="TheNights.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="bgMusic" loop preload="auto"></audio>
 
   <script>
     // Target: November 19, 2026, 23:59:00
@@ -605,12 +603,42 @@
     update();
     setInterval(update, 1000);
 
-    // Audio Autoplay & Screen Tap Handler
+    // ==========================================
+    // 90-MINUTE PLAYLIST ROTATION CONTROLLER
+    // ==========================================
+    const playlist = [
+      "TheNights.mp3",
+      "SP1.mp3",
+      "headlights.mp3",
+      "headlight4.mp3",
+    ];
+
+    const DURATION_PER_SONG = 90 * 60 * 1000; // 90 minutes in milliseconds
+    let currentTrackIndex = 0;
+    let rotationTimer = null;
     const audio = document.getElementById('bgMusic');
+
+    function loadTrack(index) {
+      audio.src = playlist[index];
+      audio.load();
+    }
+
+    function startRotationTimer() {
+      clearTimeout(rotationTimer);
+      rotationTimer = setTimeout(() => {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+        loadTrack(currentTrackIndex);
+        audio.play().catch(() => {});
+        startRotationTimer();
+      }, DURATION_PER_SONG);
+    }
+
+    loadTrack(currentTrackIndex);
 
     function playAudio() {
       if (audio && audio.paused) {
         audio.play().then(() => {
+          startRotationTimer();
           ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
             document.removeEventListener(evt, playAudio, true);
             window.removeEventListener(evt, playAudio, true);
