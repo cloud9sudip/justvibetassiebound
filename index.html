@@ -84,6 +84,7 @@
       letter-spacing: 1.2px;
       text-transform: uppercase;
       color: #93c5fd;
+      white-space: nowrap;
     }
 
     .pulse-dot {
@@ -128,7 +129,7 @@
       margin-top: 3px;
     }
 
-    /* RIGHT SIDE EMBEDDED: Compact Frosted Glass Tasmania Map Overlay */
+    /* RIGHT SIDE EMBEDDED: Interactive Tasmania Map Overlay */
     .embedded-map {
       position: absolute;
       top: 14px;
@@ -136,7 +137,7 @@
       bottom: 14px;
       width: 28%;
       max-width: 255px;
-      background: rgba(7, 17, 30, 0.72);
+      background: rgba(7, 17, 30, 0.76);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 14px;
       padding: 8px 8px 6px 8px;
@@ -147,7 +148,6 @@
       flex-direction: column;
       justify-content: space-between;
       z-index: 10;
-      pointer-events: none;
     }
 
     .map-header {
@@ -173,6 +173,7 @@
     }
 
     .svg-box {
+      position: relative;
       width: 100%;
       flex: 1;
       display: flex;
@@ -197,11 +198,28 @@
       to { stroke-dashoffset: -110; }
     }
 
+    /* Interactive Stop Styling */
+    .stop-group {
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .stop-group:hover rect {
+      fill: #fef08a;
+    }
+
+    .stop-group.active rect {
+      fill: #ffcc00;
+      stroke: #ffffff;
+      stroke-width: 1.5;
+    }
+
     .pin-label {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-weight: 800;
       font-size: 11px;
       fill: #0f172a;
+      pointer-events: none;
     }
 
     .pin-sub {
@@ -209,6 +227,7 @@
       font-weight: 700;
       font-size: 8.5px;
       fill: #0369a1;
+      pointer-events: none;
     }
 
     .pin-num {
@@ -218,9 +237,48 @@
       fill: #ffffff;
       text-anchor: middle;
       dominant-baseline: central;
+      pointer-events: none;
     }
 
-    /* BOTTOM LEFT-CENTER: Heading Above Ferry Route Box (Cleared of map) */
+    /* Interactive Stop Highlight Card inside Map */
+    .stop-info-card {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(255, 204, 0, 0.45);
+      border-radius: 9px;
+      padding: 6px 8px;
+      margin-top: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .stop-info-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .stop-info-title {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #ffcc00;
+    }
+
+    .stop-info-leg {
+      font-size: 7.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 1px 5px;
+      border-radius: 6px;
+    }
+
+    .stop-info-desc {
+      font-size: 8px;
+      line-height: 1.3;
+      color: #e2e8f0;
+    }
+
+    /* BOTTOM LEFT-CENTER: Heading Above Ferry Route Box */
     .bottom-cluster {
       position: absolute;
       bottom: 14px;
@@ -295,12 +353,25 @@
       margin: 4px 0 2px 0;
     }
 
-    .ship-icon {
+    .route-progress-fill {
       position: absolute;
       left: 0;
+      top: 0;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8, #ffcc00);
+      border-radius: 2px;
+      transition: width 1s linear;
+    }
+
+    .ship-icon {
+      position: absolute;
+      left: 0%;
       top: -8px;
       font-size: 13px;
+      transform: translateX(-20%);
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+      transition: left 1s linear;
     }
 
     /* Mobile Portrait Adjustments */
@@ -317,17 +388,21 @@
       .unit { min-width: 24px; }
       .num { font-size: 14px; }
       .lbl { font-size: 6.5px; }
-      .status-badge { font-size: 7.5px; }
+      .status-badge { font-size: 7px; }
 
       .embedded-map {
         top: 8px;
         right: 8px;
         bottom: 8px;
-        width: 31%;
+        width: 32%;
         padding: 5px 5px 4px 5px;
       }
       .map-title { font-size: 7.5px; }
       .map-subtitle { display: none; }
+      .stop-info-card { padding: 4px 5px; }
+      .stop-info-title { font-size: 7.5px; }
+      .stop-info-leg { display: none; }
+      .stop-info-desc { font-size: 6.5px; line-height: 1.2; }
 
       .bottom-cluster {
         bottom: 8px;
@@ -354,12 +429,12 @@
 
     <div class="vignette-overlay"></div>
 
-    <!-- TOP LEFT-CENTER: Countdown Timer -->
+    <!-- TOP LEFT-CENTER: Multi-Phase Countdown Timer -->
     <div class="timer-overlay" id="timerBox">
       <div class="status-badge">
-        <span class="pulse-dot"></span> Tassie Countdown
+        <span class="pulse-dot"></span> <span id="phaseLabel">Tassie Countdown</span>
       </div>
-      <div class="units-grid">
+      <div class="units-grid" id="unitsGrid">
         <div class="unit"><span class="num" id="days">--</span><span class="lbl">Days</span></div>
         <div class="unit"><span class="num" id="hours">--</span><span class="lbl">Hours</span></div>
         <div class="unit"><span class="num" id="mins">--</span><span class="lbl">Mins</span></div>
@@ -369,7 +444,7 @@
 
     <!-- BOTTOM LEFT-CENTER: Heading Above Ferry Progress Bar -->
     <div class="bottom-cluster">
-      <div class="bottom-heading">Tassie Adventure Starts Here</div>
+      <div class="bottom-heading" id="mainHeading">Tassie Adventure Starts Here</div>
 
       <div class="route-container">
         <div class="route-labels">
@@ -383,16 +458,17 @@
           </div>
         </div>
         <div class="route-track">
-          <span class="ship-icon">🚢</span>
+          <div class="route-progress-fill" id="progressFill"></div>
+          <span class="ship-icon" id="shipIcon">🚢</span>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT SIDE EMBEDDED: Compact Frosted Glass Tasmania Road Trip Map -->
+    <!-- RIGHT SIDE EMBEDDED: Interactive Tasmania Road Trip Map -->
     <div class="embedded-map">
       <div class="map-header">
         <span class="map-title">🗺️ Tassie Route</span>
-        <span class="map-subtitle">Devonport → Hobart</span>
+        <span class="map-subtitle">Tap a stop</span>
       </div>
 
       <div class="svg-box">
@@ -436,7 +512,7 @@
                    C 228,376 227,355 234,352 Z" 
                 fill="url(#islandGrad)" stroke="#bef264" stroke-width="2" />
 
-          <!-- Mountain Peaks (Cradle Mountain & Mt Wellington) -->
+          <!-- Mountain Peaks -->
           <polygon points="145,158 158,134 171,158" fill="#cbd5e1" opacity="0.9" />
           <polygon points="158,158 170,138 182,158" fill="#94a3b8" opacity="0.9" />
           <polygon points="205,326 215,308 225,326" fill="#cbd5e1" opacity="0.9" />
@@ -476,9 +552,9 @@
           <circle cx="214" cy="322" r="4" fill="#f59e0b" stroke="#fff" stroke-width="1.5" />
           <circle cx="235" cy="372" r="4.5" fill="#ef4444" stroke="#fff" stroke-width="1.5" />
 
-          <!-- CALLOUT BADGES -->
+          <!-- INTERACTIVE CALLOUT BADGES -->
           <!-- 1. Devonport -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group active" data-stop="0" filter="url(#cardShadow)">
             <line x1="185" y1="84" x2="170" y2="42" stroke="#ffffff" stroke-width="1.5" />
             <rect x="112" y="20" width="96" height="24" rx="12" fill="#ffffff" />
             <circle cx="125" cy="32" r="8.5" fill="#ef4444" />
@@ -487,7 +563,7 @@
           </g>
 
           <!-- 2. Launceston -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="1" filter="url(#cardShadow)">
             <line x1="238" y1="112" x2="255" y2="68" stroke="#ffffff" stroke-width="1.5" />
             <rect x="225" y="45" width="102" height="24" rx="12" fill="#ffffff" />
             <circle cx="238" cy="57" r="8.5" fill="#ef4444" />
@@ -496,7 +572,7 @@
           </g>
 
           <!-- 3. Cradle Mountain -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="2" filter="url(#cardShadow)">
             <line x1="154" y1="154" x2="108" y2="165" stroke="#ffffff" stroke-width="1.5" />
             <rect x="12" y="150" width="104" height="32" rx="10" fill="#ffffff" />
             <circle cx="25" cy="166" r="8.5" fill="#ef4444" />
@@ -506,7 +582,7 @@
           </g>
 
           <!-- 4. St Helens / Bay of Fires -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="3" filter="url(#cardShadow)">
             <line x1="334" y1="116" x2="348" y2="105" stroke="#ffffff" stroke-width="1.5" />
             <rect x="334" y="84" width="102" height="32" rx="10" fill="#ffffff" />
             <circle cx="347" cy="100" r="8.5" fill="#ef4444" />
@@ -516,7 +592,7 @@
           </g>
 
           <!-- 5. Bicheno -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="4" filter="url(#cardShadow)">
             <line x1="326" y1="184" x2="346" y2="178" stroke="#ffffff" stroke-width="1.5" />
             <rect x="342" y="164" width="84" height="24" rx="12" fill="#ffffff" />
             <circle cx="355" cy="176" r="8.5" fill="#ef4444" />
@@ -525,7 +601,7 @@
           </g>
 
           <!-- 6. Freycinet NP -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="5" filter="url(#cardShadow)">
             <line x1="324" y1="224" x2="344" y2="232" stroke="#ffffff" stroke-width="1.5" />
             <rect x="336" y="218" width="100" height="32" rx="10" fill="#ffffff" />
             <circle cx="349" cy="234" r="8.5" fill="#ef4444" />
@@ -535,7 +611,7 @@
           </g>
 
           <!-- 7. Hobart -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="6" filter="url(#cardShadow)">
             <line x1="232" y1="324" x2="288" y2="305" stroke="#ffffff" stroke-width="1.5" />
             <rect x="282" y="290" width="84" height="24" rx="12" fill="#ffffff" />
             <circle cx="295" cy="302" r="8.5" fill="#ef4444" />
@@ -544,7 +620,7 @@
           </g>
 
           <!-- 8. Mt Wellington -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="7" filter="url(#cardShadow)">
             <line x1="214" y1="322" x2="142" y2="310" stroke="#ffffff" stroke-width="1.5" />
             <rect x="44" y="294" width="104" height="24" rx="12" fill="#ffffff" />
             <circle cx="57" cy="306" r="8.5" fill="#f59e0b" />
@@ -553,7 +629,7 @@
           </g>
 
           <!-- 9. Bruny Island -->
-          <g filter="url(#cardShadow)">
+          <g class="stop-group" data-stop="8" filter="url(#cardShadow)">
             <line x1="235" y1="372" x2="282" y2="375" stroke="#ffffff" stroke-width="1.5" />
             <rect x="278" y="360" width="108" height="26" rx="12" fill="#ffffff" />
             <circle cx="291" cy="373" r="8.5" fill="#ef4444" />
@@ -570,66 +646,37 @@
           </g>
         </svg>
       </div>
+
+      <!-- Interactive Stop Highlight Card -->
+      <div class="stop-info-card" id="stopInfoCard">
+        <div class="stop-info-top">
+          <span class="stop-info-title" id="stopTitle">1. Devonport Arrival</span>
+          <span class="stop-info-leg" id="stopLeg">21 Nov • 6:00 AM</span>
+        </div>
+        <div class="stop-info-desc" id="stopDesc">Disembark Spirit of Tasmania at Mersey Bluff & roll out onto the Tassie road trip.</div>
+      </div>
     </div>
   </div>
-  <!-- Subtle Skip Track Button (Bottom Right Corner) -->
-  <button id="nextTrackBtn" title="Next Song" style="position: fixed; bottom: 14px; right: 14px; z-index: 50; background: rgba(7, 17, 30, 0.85); color: #ffcc00; border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; backdrop-filter: blur(8px);">
-    🎵 Next Track ⏭
-  </button>
 
-  <!-- Background Audio Element -->
-  <audio id="bgMusic" loop preload="auto"></audio>
+  <!-- Single Background Audio Element -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="TheNights.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    // Target: November 19, 2026, 23:59:00
-    const targetDeparture = new Date(2026, 10, 19, 23, 59, 0).getTime();
-
     // ==========================================
-    // 90-SECOND AUTOMATIC PLAYLIST CONTROLLER
+    // 1. MULTI-PHASE JOURNEY & LIVE FERRY TRACKER
     // ==========================================
-    const playlist = [
-      "TheNights.mp3",
-      "SP1.mp3",
-      "headlights.mp3",
-      "headlight4.mp3"
-    ];
+    const sydneyDepart = new Date(2026, 10, 19, 23, 59, 0).getTime(); // Nov 19, 11:59 PM
+    const ferryDepart  = new Date(2026, 10, 20, 18, 45, 0).getTime(); // Nov 20, 6:45 PM
+    const ferryArrive  = new Date(2026, 10, 21, 6, 0, 0).getTime();   // Nov 21, 6:00 AM
 
-    const DURATION_PER_SONG = 90 * 1000; // 90 seconds in milliseconds
-    let currentTrackIndex = 0;
-    let trackStartTime = Date.now();
-    const audio = document.getElementById('bgMusic');
+    const phaseLabel   = document.getElementById('phaseLabel');
+    const mainHeading  = document.getElementById('mainHeading');
+    const shipIcon     = document.getElementById('shipIcon');
+    const progressFill = document.getElementById('progressFill');
 
-    function loadAndPlay(index) {
-      currentTrackIndex = index % playlist.length;
-      audio.src = playlist[currentTrackIndex];
-      audio.load();
-      trackStartTime = Date.now();
-      audio.play().catch(() => {});
-    }
-
-    // Set initial track
-    audio.src = playlist[currentTrackIndex];
-
-    // Manual skip button
-    document.getElementById('nextTrackBtn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      loadAndPlay(currentTrackIndex + 1);
-    });
-
-    function update() {
-      const now = Date.now();
-      const diff = targetDeparture - now;
-
-      // Automatically switches to the next song every 90 seconds
-      if (!audio.paused && (now - trackStartTime >= DURATION_PER_SONG)) {
-        loadAndPlay(currentTrackIndex + 1);
-      }
-
-      if (diff <= 0) {
-        document.getElementById('timerBox').innerHTML = "<span class='num' style='padding:6px 14px;'>Tassie Bound! 🚢</span>";
-        return;
-      }
-
+    function renderCountdown(diff) {
       const d = Math.floor(diff / (1000 * 60 * 60 * 24));
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const m = Math.floor((diff / (1000 * 60)) % 60);
@@ -641,14 +688,130 @@
       document.getElementById('secs').textContent = s;
     }
 
+    function update() {
+      const now = Date.now();
+
+      if (now < sydneyDepart) {
+        // PHASE 1: Pre-departure countdown
+        phaseLabel.textContent = "Tassie Countdown";
+        shipIcon.style.left = "0%";
+        progressFill.style.width = "0%";
+        renderCountdown(sydneyDepart - now);
+
+      } else if (now < ferryDepart) {
+        // PHASE 2: Driving Sydney -> Geelong
+        phaseLabel.textContent = "En Route to Geelong 🚗";
+        mainHeading.textContent = "Boarding Spirit of Tasmania Soon";
+        shipIcon.style.left = "0%";
+        progressFill.style.width = "0%";
+        renderCountdown(ferryDepart - now);
+
+      } else if (now < ferryArrive) {
+        // PHASE 3: Live Bass Strait Crossing (Ship glides across bar!)
+        phaseLabel.textContent = "Sailing Bass Strait 🌊";
+        mainHeading.textContent = "Cruising to Devonport";
+        const totalSailing = ferryArrive - ferryDepart;
+        const sailed = now - ferryDepart;
+        const pct = Math.min(95, Math.max(2, (sailed / totalSailing) * 100));
+        shipIcon.style.left = pct + "%";
+        progressFill.style.width = pct + "%";
+        renderCountdown(ferryArrive - now);
+
+      } else {
+        // PHASE 4: Arrived in Tasmania!
+        const tripDay = Math.floor((now - ferryArrive) / (1000 * 60 * 60 * 24)) + 1;
+        phaseLabel.textContent = "Tassie Adventure Live!";
+        mainHeading.textContent = "Exploring Tasmania 🏔️";
+        shipIcon.style.left = "94%";
+        progressFill.style.width = "100%";
+        document.getElementById('unitsGrid').innerHTML =
+          `<div class="unit" style="min-width: 140px;"><span class="num">Day ${tripDay}</span><span class="lbl">On The Island</span></div>`;
+      }
+    }
+
     update();
     setInterval(update, 1000);
 
-    // Audio Autoplay & Screen Tap Handler
+    // ==========================================
+    // 2. INTERACTIVE MAP STOP EXPLORER
+    // ==========================================
+    const stopsData = [
+      {
+        title: "1. Devonport Arrival",
+        leg: "21 Nov • 6:00 AM",
+        desc: "Disembark Spirit of Tasmania at Mersey Bluff & roll out onto the Tassie road trip."
+      },
+      {
+        title: "2. Launceston",
+        leg: "~1 hr 15 min drive",
+        desc: "Explore Cataract Gorge, suspension bridge walks & Tamar Valley views."
+      },
+      {
+        title: "3. Cradle Mountain",
+        leg: "~2 hr drive",
+        desc: "Dove Lake circuit, jagged alpine peaks & spotting wombats at Ronny Creek."
+      },
+      {
+        title: "4. St Helens & Bay of Fires",
+        leg: "~3 hr 30 min drive",
+        desc: "White silica beaches, crystal turquoise water & iconic orange lichen boulders."
+      },
+      {
+        title: "5. Bicheno",
+        leg: "~1 hr 10 min drive",
+        desc: "Coastal blowhole, red granite shoreline & evening fairy penguin spotting."
+      },
+      {
+        title: "6. Freycinet National Park",
+        leg: "~35 min drive",
+        desc: "Wineglass Bay lookout hike & granite Hazards mountains."
+      },
+      {
+        title: "7. Hobart",
+        leg: "~2 hr 30 min drive",
+        desc: "Salamanca waterfront, Battery Point & harbour dining."
+      },
+      {
+        title: "8. Mt Wellington (kunanyi)",
+        leg: "~25 min from Hobart",
+        desc: "1,271m summit boardwalk with sweeping panoramic views over Hobart & the Derwent."
+      },
+      {
+        title: "9. Bruny Island",
+        leg: "Kettering Ferry",
+        desc: "The Neck Truganini Lookout, Cape Bruny lighthouse & local island produce."
+      }
+    ];
+
+    const stopGroups = document.querySelectorAll('.stop-group');
+    const stopTitle  = document.getElementById('stopTitle');
+    const stopLeg    = document.getElementById('stopLeg');
+    const stopDesc   = document.getElementById('stopDesc');
+
+    stopGroups.forEach(group => {
+      group.addEventListener('click', (e) => {
+        e.stopPropagation();
+        stopGroups.forEach(g => g.classList.remove('active'));
+        group.classList.add('active');
+
+        const idx = parseInt(group.getAttribute('data-stop'), 10);
+        const info = stopsData[idx];
+        if (info) {
+          stopTitle.textContent = info.title;
+          stopLeg.textContent   = info.leg;
+          stopDesc.textContent  = info.desc;
+        }
+      });
+    });
+
+    // ==========================================
+    // 3. SINGLE AUDIO AUTOPLAY & TAP UNLOCK
+    // ==========================================
+    const audio = document.getElementById('bgMusic');
+
     function playAudio() {
       if (audio && audio.paused) {
         audio.play().then(() => {
-          trackStartTime = Date.now();
           ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(evt => {
             document.removeEventListener(evt, playAudio, true);
             window.removeEventListener(evt, playAudio, true);
@@ -663,10 +826,5 @@
       window.addEventListener(evt, playAudio, { capture: true, passive: true });
     });
   </script>
-</body>
-</html>
-</body>
-</html>
-  
 </body>
 </html>
