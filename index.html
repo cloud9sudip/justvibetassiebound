@@ -401,28 +401,29 @@
     }
 
     .ci-step {
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      padding: 3px 2px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 7px;
+      padding: 5px 4px;
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      gap: 2px;
     }
 
     .ci-step.cutoff {
-      background: rgba(239, 68, 68, 0.18);
-      border-color: rgba(239, 68, 68, 0.45);
+      background: rgba(239, 68, 68, 0.22);
+      border-color: rgba(239, 68, 68, 0.55);
     }
 
     .ci-time {
-      font-size: 9px;
-      font-weight: 800;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
       color: #4ade80;
     }
 
     .ci-step.cutoff .ci-time {
-      color: #f87171;
+      color: #fca5a5;
     }
 
     .ci-step.depart .ci-time {
@@ -430,10 +431,17 @@
     }
 
     .ci-label {
-      font-size: 7px;
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .ci-sub {
+      font-size: 7.5px;
       font-weight: 600;
-      color: #e2e8f0;
-      line-height: 1.15;
+      color: #94a3b8;
+      line-height: 1.1;
     }
 
     /* Mobile Portrait Adjustments */
@@ -476,10 +484,11 @@
       .route-container { padding: 4px 6px; }
       .port-name { font-size: 8px; }
       .port-time { font-size: 6.5px; }
-      .checkin-strip { gap: 2px; margin-top: 4px; padding-top: 4px; }
-      .ci-step { padding: 2px 1px; }
-      .ci-time { font-size: 7px; }
-      .ci-label { font-size: 5.5px; }
+      .checkin-strip { gap: 3px; margin-top: 4px; padding-top: 4px; }
+      .ci-step { padding: 3px 2px; }
+      .ci-time { font-size: 8.5px; }
+      .ci-label { font-size: 7px; }
+      .ci-sub { font-size: 6px; }
     }
   </style>
 </head>
@@ -532,19 +541,23 @@
         <div class="checkin-strip" id="checkinStrip">
           <div class="ci-step">
             <span class="ci-time">4:15 PM</span>
-            <span class="ci-label">Check-in Opens<br>(2.5 hrs prior)</span>
+            <span class="ci-label">Check-in Opens</span>
+            <span class="ci-sub">2.5 hrs prior</span>
           </div>
           <div class="ci-step">
             <span class="ci-time">5:15 PM</span>
-            <span class="ci-label">Boarding Starts<br>(1.5 hrs prior)</span>
+            <span class="ci-label">Boarding Starts</span>
+            <span class="ci-sub">1.5 hrs prior</span>
           </div>
           <div class="ci-step cutoff">
             <span class="ci-time">6:00 PM</span>
-            <span class="ci-label">⛔ Gate Closes<br>(45 mins prior)</span>
+            <span class="ci-label">⛔ Gate Closes</span>
+            <span class="ci-sub">45 mins prior</span>
           </div>
           <div class="ci-step depart">
             <span class="ci-time">6:45 PM</span>
-            <span class="ci-label">🚢 Set Sail<br>Geelong</span>
+            <span class="ci-label">🚢 Set Sail</span>
+            <span class="ci-sub">Geelong</span>
           </div>
         </div>
       </div>
