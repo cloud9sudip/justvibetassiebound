@@ -237,7 +237,7 @@
     .pin-sub {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-weight: 700;
-      font-size: 9.5px;
+      font-size: 9px;
       fill: #0369a1;
       pointer-events: none;
     }
@@ -286,9 +286,22 @@
       white-space: nowrap;
     }
 
+    .stop-stay-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      color: #4ade80;
+      background: rgba(34, 197, 94, 0.16);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      border-radius: 5px;
+      padding: 2px 6px;
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+
     .stop-info-desc {
-      font-size: 10px;
-      line-height: 1.38;
+      font-size: 9.8px;
+      line-height: 1.36;
       color: #f8fafc;
       font-weight: 500;
     }
@@ -472,6 +485,7 @@
       .stop-info-card { padding: 4px 6px; }
       .stop-info-title { font-size: 8.5px; }
       .stop-info-leg { display: none; }
+      .stop-stay-badge { font-size: 7px; padding: 1px 4px; margin-bottom: 2px; }
       .stop-info-desc { font-size: 7.5px; line-height: 1.25; }
 
       .bottom-cluster {
@@ -567,7 +581,7 @@
     <div class="embedded-map">
       <div class="map-header">
         <span class="map-title">🗺️ 7 Day Loop Tassie Road Trip 2026</span>
-        <span class="map-subtitle">Tap any numbered stop below</span>
+        <span class="map-subtitle">Tap any numbered stop for stays & plans</span>
       </div>
 
       <div class="svg-box">
@@ -642,7 +656,7 @@
                    M 234,324 Q 234,348 235,372" 
                 fill="none" stroke="#fef08a" stroke-width="1.6" stroke-linecap="round" />
 
-          <!-- RETURN LEG PATH: Hobart -> Campbell Town -> Devonport -->
+          <!-- RETURN LEG PATH: Hobart/Rokeby -> Campbell Town -> Devonport -->
           <path class="return-line"
                 d="M 234,324 Q 248,255 246,195 Q 222,135 185,84"
                 fill="none" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round" />
@@ -661,13 +675,14 @@
           <circle cx="246" cy="195" r="4.5" fill="#0284c7" stroke="#fff" stroke-width="1.5" />
 
           <!-- INTERACTIVE CALLOUT BADGES -->
-          <!-- 1. Devonport -->
+          <!-- 1. Devonport (Night 1 Stay) -->
           <g class="stop-group active" data-stop="0" filter="url(#cardShadow)">
             <line x1="185" y1="84" x2="165" y2="38" stroke="#ffffff" stroke-width="1.5" />
-            <rect x="96" y="13" width="112" height="26" rx="13" fill="#ffffff" />
-            <circle cx="110" cy="26" r="9" fill="#ef4444" />
-            <text x="110" y="26" class="pin-num">1</text>
-            <text x="124" y="30.5" class="pin-label">Devonport</text>
+            <rect x="86" y="7" width="128" height="33" rx="11" fill="#ffffff" />
+            <circle cx="101" cy="23.5" r="9" fill="#ef4444" />
+            <text x="101" y="23.5" class="pin-num">1</text>
+            <text x="115" y="20" class="pin-label">Devonport</text>
+            <text x="115" y="32.5" class="pin-sub">🏡 21–22 Nov Stay</text>
           </g>
 
           <!-- 2. Launceston & Lavender -->
@@ -689,14 +704,14 @@
             <text x="34" y="174.5" class="pin-label">Mountain</text>
           </g>
 
-          <!-- 4. St Helens & Bay of Fires -->
+          <!-- 4. St Helens & Bay of Fires (2 Nights Stay) -->
           <g class="stop-group" data-stop="3" filter="url(#cardShadow)">
             <line x1="334" y1="116" x2="348" y2="105" stroke="#ffffff" stroke-width="1.5" />
-            <rect x="330" y="82" width="114" height="34" rx="11" fill="#ffffff" />
-            <circle cx="344" cy="99" r="9" fill="#ef4444" />
-            <text x="344" y="99" class="pin-num">4</text>
-            <text x="358" y="95.5" class="pin-label">St Helens</text>
-            <text x="358" y="108.5" class="pin-sub">Bay of Fires</text>
+            <rect x="326" y="82" width="120" height="34" rx="11" fill="#ffffff" />
+            <circle cx="340" cy="99" r="9" fill="#ef4444" />
+            <text x="340" y="99" class="pin-num">4</text>
+            <text x="354" y="95.5" class="pin-label">St Helens</text>
+            <text x="354" y="108.5" class="pin-sub">🏡 22–24 Nov (2N)</text>
           </g>
 
           <!-- 5. Blue Lake & Legerwood -->
@@ -727,13 +742,14 @@
             <text x="360" y="242.5" class="pin-sub">Wineglass Bay</text>
           </g>
 
-          <!-- 8. Hobart -->
+          <!-- 8. Hobart / Moonah (Rocklyn House 24th Night) -->
           <g class="stop-group" data-stop="7" filter="url(#cardShadow)">
             <line x1="234" y1="324" x2="288" y2="305" stroke="#ffffff" stroke-width="1.5" />
-            <rect x="282" y="288" width="94" height="26" rx="13" fill="#ffffff" />
-            <circle cx="296" cy="301" r="9" fill="#ef4444" />
-            <text x="296" y="301" class="pin-num">8</text>
-            <text x="310" y="305.5" class="pin-label">Hobart</text>
+            <rect x="278" y="284" width="128" height="34" rx="11" fill="#ffffff" />
+            <circle cx="292" cy="301" r="9" fill="#ef4444" />
+            <text x="292" y="301" class="pin-num">8</text>
+            <text x="306" y="297.5" class="pin-label">Hobart Moonah</text>
+            <text x="306" y="310.5" class="pin-sub">🏡 24 Nov Rocklyn</text>
           </g>
 
           <!-- 9. Mt Wellington, Richmond & Russell Falls -->
@@ -746,13 +762,14 @@
             <text x="42" y="314.5" class="pin-sub">Richmond • Falls</text>
           </g>
 
-          <!-- 10. Bruny Island -->
+          <!-- 10. Bruny Island & Rokeby Stay (25th & 26th Nights) -->
           <g class="stop-group" data-stop="9" filter="url(#cardShadow)">
             <line x1="235" y1="372" x2="282" y2="375" stroke="#ffffff" stroke-width="1.5" />
-            <rect x="276" y="358" width="122" height="28" rx="14" fill="#ffffff" />
-            <circle cx="291" cy="372" r="9.5" fill="#ef4444" />
-            <text x="291" y="372" class="pin-num">10</text>
-            <text x="305" y="376.5" class="pin-label">Bruny Island</text>
+            <rect x="274" y="354" width="144" height="34" rx="11" fill="#ffffff" />
+            <circle cx="289" cy="371" r="9.5" fill="#ef4444" />
+            <text x="289" y="371" class="pin-num">10</text>
+            <text x="304" y="367.5" class="pin-label">Bruny & Rokeby</text>
+            <text x="304" y="380.5" class="pin-sub">🏡 25–26 Nov (2N)</text>
           </g>
 
           <!-- 11. Campbell Town (Return Coffee Stop) -->
@@ -775,13 +792,14 @@
         </svg>
       </div>
 
-      <!-- Interactive Stop Highlight Card -->
+      <!-- Interactive Stop Highlight Card with Accommodation Badge -->
       <div class="stop-info-card" id="stopInfoCard">
         <div class="stop-info-top">
-          <span class="stop-info-title" id="stopTitle">1. Devonport Arrival & Base</span>
+          <span class="stop-info-title" id="stopTitle">1. Devonport Arrival</span>
           <span class="stop-info-leg" id="stopLeg">Sat 21 Nov</span>
         </div>
-        <div class="stop-info-desc" id="stopDesc">6:00 AM arrival on Spirit of Tasmania. Day trip east to Launceston & back to Devonport to stay.</div>
+        <div class="stop-stay-badge" id="stopStay">🏡 Stay: Cosy Heritage Family Home (In 21 • Out 22 Nov)</div>
+        <div class="stop-info-desc" id="stopDesc">6:00 AM ferry arrival. Day trip east to Launceston & back to Devonport for overnight stay.</div>
       </div>
     </div>
   </div>
@@ -887,62 +905,73 @@
     setInterval(update, 1000);
 
     // ==========================================
-    // 2. INTERACTIVE 7-DAY STOP EXPLORER
+    // 2. INTERACTIVE 7-DAY STOP & STAY EXPLORER
     // ==========================================
     const stopsData = [
       {
-        title: "1. Devonport Arrival & Base",
+        title: "1. Devonport Arrival",
         leg: "Sat 21 Nov",
-        desc: "6:00 AM arrival on Spirit of Tasmania. Day trip east to Launceston & back to Devonport to stay."
+        stay: "🏡 Stay: Cosy Heritage Family Home (In 21 • Out 22 Nov)",
+        desc: "6:00 AM ferry arrival. Day trip east to Launceston & back to Devonport for overnight stay."
       },
       {
         title: "2. Launceston & Lavender",
         leg: "Sat 21 Nov",
+        stay: "🏡 Night Base: Cosy Heritage Family Home (Devonport)",
         desc: "Penny Royal Adventures, Cataract Gorge walk & Bridestowe Lavender Estate before returning to Devonport."
       },
       {
         title: "3. Cradle Mountain",
         leg: "Sun 22 Nov",
-        desc: "Dove Lake Circuit & Ronny Creek wombats, then cross-island drive east to St Helens (2 nights)."
+        stay: "🚗 Check-out Devonport → Drive to St Helens Stay",
+        desc: "Dove Lake Circuit & Ronny Creek wombats, then cross-island drive east to St Helens for 2 nights."
       },
       {
         title: "4. St Helens & Bay of Fires",
-        leg: "22–23 Nov",
-        desc: "2-night base. Explore Binalong Bay, The Gardens & glowing orange lichen boulders."
+        leg: "22–24 Nov",
+        stay: "🏡 Stay: St Helens (22nd & 23rd Nights • Out 24 Nov AM)",
+        desc: "2-night East Coast base. Explore Binalong Bay, The Gardens & glowing orange lichen boulders."
       },
       {
         title: "5. Blue Lake & Legerwood",
         leg: "Mon 23 Nov",
+        stay: "🏡 Night Base: St Helens (Night 2 of 2)",
         desc: "Scenic inland loop to Little Blue Lake & Legerwood Carved Memorial Trees from St Helens."
       },
       {
         title: "6. Bicheno Blowhole",
         leg: "Tue 24 Nov",
+        stay: "🚗 Depart St Helens AM → En Route to Hobart",
         desc: "Morning coastal drive south to watch the granite blowhole geyser before Freycinet."
       },
       {
         title: "7. Freycinet & Devil's Corner",
         leg: "Tue 24 Nov",
-        desc: "Wineglass Bay Lookout, Cape Tourville Lighthouse & Devil's Corner lunch, then evening drive to Hobart."
+        stay: "🏡 Evening Check-in: Rocklyn House (Moonah, Hobart)",
+        desc: "Wineglass Bay Lookout, Cape Tourville Lighthouse & Devil's Corner lunch, then drive to Hobart."
       },
       {
-        title: "8. Hobart Base",
-        leg: "24–26 Nov",
-        desc: "Southern hub for Salamanca waterfront, Bruny Island day trip & mountain excursions."
+        title: "8. Hobart (Moonah)",
+        leg: "Tue 24 Nov",
+        stay: "🏡 Stay: Rocklyn House, Moonah (24th Night)",
+        desc: "Evening arrival in Hobart after the East Coast drive; base before heading to Bruny Island on the 25th."
       },
       {
         title: "9. Mt Wellington, Richmond & Falls",
         leg: "Thu 26 Nov",
+        stay: "🏡 Stay: Rokeby (Night 2 of 2 • Out 27 Nov AM)",
         desc: "kunanyi summit views, historic Richmond Bridge & Russell Falls at Mt Field National Park."
       },
       {
-        title: "10. Bruny Island Full Day",
-        leg: "Wed 25 Nov",
-        desc: "Kettering ferry, The Neck Lookout, Adventure Bay white wallabies, Cape Bruny Lighthouse & local oysters."
+        title: "10. Bruny Island & Rokeby",
+        leg: "25–26 Nov",
+        stay: "🏡 Stay: Rokeby (25th & 26th Nights • 2 Nights)",
+        desc: "Full day Wed 25 Nov on Bruny Island (The Neck, white wallabies, Cape Bruny Lighthouse) & 2 nights in Rokeby."
       },
       {
         title: "11. Campbell Town Coffee Stop",
         leg: "Fri 27 Nov",
+        stay: "🚗 Check-out Rokeby AM → Return to Devonport Ferry",
         desc: "Midlands Highway coffee break & Red Bridge walk on the drive back to Devonport for the ferry home."
       }
     ];
@@ -950,6 +979,7 @@
     const stopGroups = document.querySelectorAll('.stop-group');
     const stopTitle  = document.getElementById('stopTitle');
     const stopLeg    = document.getElementById('stopLeg');
+    const stopStay   = document.getElementById('stopStay');
     const stopDesc   = document.getElementById('stopDesc');
 
     stopGroups.forEach(group => {
@@ -963,6 +993,12 @@
         if (info) {
           stopTitle.textContent = info.title;
           stopLeg.textContent   = info.leg;
+          if (info.stay) {
+            stopStay.style.display = 'inline-block';
+            stopStay.textContent   = info.stay;
+          } else {
+            stopStay.style.display = 'none';
+          }
           stopDesc.textContent  = info.desc;
         }
       });
